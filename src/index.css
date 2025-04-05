@@ -5,3 +5,205 @@
     font-family: 'Pacifico';
     src: url('/public/Pacifico-Regular.ttf');
   }
+
+input[type="radio"] {
+  display: none;
+}
+
+@theme {
+  --color-midnight: #da2f04;
+  --color-tahiti: #3ab7bf;
+  --color-bermuda: #78dcca;
+  --color-primary: #da2f04;
+  --color-secondary: #33670a; 
+  --color-background: #fffaee; 
+  --color-border: #cccccc;
+  --color-accent: #fbbf24;
+  --color-muted: #f3f4f6;
+
+  --font-display: "Oswald", "sans-serif"; 
+  --font-pacifico: "Pacifico", "cursive"; 
+  --font-sans:"Inter", "ui-sans-serif", "system-ui"; 
+  --font-base: "Arial", "sans-serif"; 
+
+  --gradient-primary: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+  --gradient-pizza: linear-gradient(to bottom right, #f59e0b, #ef4444, var(--color-primary));
+  --gradient-overlay: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.2));
+}
+
+@layer components {
+  .title{
+    @apply font-pacifico text-primary relative text-center text-[40px] font-normal
+  }
+  .h2Title::after{
+    content: "";
+    display: inline-block;
+    margin-left: 25px;
+    width: 150px;
+    height: 30px;
+    background: conic-gradient(
+      transparent 90deg,
+      var(--color-primary) 90deg 180deg,
+      transparent 180deg 270deg,
+      var(--color-primary) 270deg
+    );
+    background-repeat: repeat;
+    background-size: 30px 30px;
+    background-position: top left;
+  }
+
+  .loading-pizza {
+    @apply relative mx-auto w-32 h-32;
+  }
+
+  .loading-pizza::before,
+  .loading-pizza::after {
+    content: '';
+    @apply absolute inset-0 rounded-full;
+    background: var(--color-primary);
+    animation: pizza-spin 2s infinite linear;
+  }
+
+  .loading-pizza::before {
+    @apply opacity-20;
+    animation-duration: 1.5s;
+  }
+
+  .loading-pizza::after {
+    @apply opacity-40;
+    animation-duration: 1s;
+  }
+
+  @keyframes pizza-spin {
+    0% {
+      transform: rotate(0deg) scale(1);
+    }
+    50% {
+      transform: rotate(180deg) scale(1.1);
+    }
+    100% {
+      transform: rotate(360deg) scale(1);
+    }
+  }
+
+  .loading-text {
+    @apply font-pacifico text-primary text-xl text-center mt-4;
+    animation: loading-pulse 1.5s infinite;
+  }
+
+  @keyframes loading-pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .btn {    
+    @apply mx-auto block my-4 transition-all duration-200 ease-in-out hover:scale-105 active:scale-95;
+    border: 1px solid var(--color-primary);
+    width: fit-content;
+    background-color: transparent;
+    color: var(--color-primary);
+    font-family: var(--font-pacifico);
+    font-size: 20px;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn:hover {
+    background-color: var(--color-primary);
+    color: white;
+    box-shadow: 0 4px 8px rgba(218, 47, 4, 0.2);
+  }
+
+  .btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(218, 47, 4, 0.1);
+  }
+  .pizzaSize {
+    @apply flex h-[80px] w-[80px] cursor-pointer items-center justify-center rounded-md border border-gray-400 text-gray-500 bg-gray-300 
+    transition-all duration-300 ease-in-out transform hover:scale-110 hover:rotate-3 hover:bg-amber-300 
+    focus:outline-2 focus:outline-offset-2;
+  }
+
+  .pizzaSize:hover {
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+  }
+
+  .pizzaSize:active {
+    transform: scale(0.95) rotate(-2deg);
+  }
+
+  /* Selected state animations */
+  .peer:checked + .pizzaSize {
+    @apply bg-green-400 font-bold text-white border-4 border-double border-white;
+    animation: selectedPizza 0.5s ease-out forwards;
+    box-shadow: 0 0 20px rgba(51, 103, 10, 0.4);
+  }
+
+  @keyframes selectedPizza {
+    0% {
+      transform: scale(1) rotate(0deg);
+    }
+    50% {
+      transform: scale(1.2) rotate(5deg);
+    }
+    75% {
+      transform: scale(0.95) rotate(-2deg);
+    }
+    100% {
+      transform: scale(1.1) rotate(0deg);
+    }
+  }
+
+  /* Add a subtle pulse animation for the selected size */
+  .peer:checked + .pizzaSize::after {
+    content: '';
+    @apply absolute inset-0 rounded-md;
+    border: 2px solid white;
+    animation: pulseBorder 2s infinite;
+  }
+
+  @keyframes pulseBorder {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .bg-pizza-pattern {
+    @apply bg-[url('/public/pizza-bg.svg')] bg-repeat bg-contain;
+  }
+  /* Gradient Patterns */
+  .bg-gradient-primary {
+    @apply bg-gradient-to-r from-primary to-secondary;
+  }
+
+  .bg-gradient-pizza {
+    @apply bg-gradient-to-br from-amber-500 via-red-500 to-primary;
+  }
+
+  .bg-gradient-menu {
+    @apply bg-gradient-to-t from-gray-100 to-white;
+  }
+
+  .bg-gradient-hero {
+    @apply bg-gradient-to-b from-primary/90 to-secondary/90;
+  }
+
+  .bg-gradient-card {
+    @apply bg-gradient-to-tr from-white via-gray-50 to-gray-100;
+  }
+}
