@@ -20,6 +20,14 @@ input[type="radio"] {
   --color-border: #cccccc;
   --color-accent: #fbbf24;
   --color-muted: #f3f4f6;
+  --color-pizza-crust: #ffd700;
+  --color-pizza-sauce: #ff4136;
+  --color-pizza-glow: rgba(255, 215, 0, 0.6);
+  --color-pizza-text: #2d3748;
+  --color-pizza-name-glow: rgba(218, 47, 4, 0.2);
+  --color-pizza-description: #4a5568;
+  --color-pizza-price-bg: #fdf2f8;
+  --color-pizza-price-text: #da2f04;
 
   --font-display: "Oswald", "sans-serif"; 
   --font-pacifico: "Pacifico", "cursive"; 
@@ -125,61 +133,91 @@ input[type="radio"] {
     box-shadow: 0 2px 4px rgba(218, 47, 4, 0.1);
   }
   .pizzaSize {
-    @apply flex h-[80px] w-[80px] cursor-pointer items-center justify-center rounded-md border border-gray-400 text-gray-500 bg-gray-300 
-    transition-all duration-300 ease-in-out transform hover:scale-110 hover:rotate-3 hover:bg-amber-300 
-    focus:outline-2 focus:outline-offset-2;
+    @apply flex h-[80px] w-[80px] cursor-pointer items-center justify-center rounded-full 
+    border-4 border-pizza-sauce text-gray-700 bg-white relative overflow-hidden
+    transition-all duration-300 ease-in-out;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
+  /* Pizza slice pattern background */
+  .pizzaSize::before {
+    content: '';
+    @apply absolute inset-0;
+    background-image: repeating-conic-gradient(
+      from 0deg,
+      transparent 0deg 30deg,
+      rgba(255, 65, 54, 0.1) 30deg 60deg
+    );
+    opacity: 0.5;
+    transition: all 0.3s ease;
+  }
+
+  /* Hover effects */
   .pizzaSize:hover {
-    box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+    @apply border-pizza-crust;
+    transform: translateY(-5px) rotate(5deg);
+    box-shadow: 0 8px 15px var(--color-pizza-glow);
+    animation: pizzaBounce 0.5s ease infinite;
   }
 
+  .pizzaSize:hover::before {
+    transform: rotate(180deg);
+    opacity: 0.8;
+  }
+
+  /* Active state */
   .pizzaSize:active {
-    transform: scale(0.95) rotate(-2deg);
+    transform: scale(0.9) rotate(-5deg);
+    box-shadow: 0 2px 4px var(--color-pizza-glow);
   }
 
-  /* Selected state animations */
+  /* Selected state */
   .peer:checked + .pizzaSize {
-    @apply bg-green-400 font-bold text-white border-4 border-double border-white;
-    animation: selectedPizza 0.5s ease-out forwards;
-    box-shadow: 0 0 20px rgba(51, 103, 10, 0.4);
+    @apply bg-pizza-sauce text-white border-pizza-crust;
+    animation: selectedPizzaNew 0.6s ease-out forwards;
+    box-shadow: 0 0 25px var(--color-pizza-glow);
   }
 
-  @keyframes selectedPizza {
+  .peer:checked + .pizzaSize::before {
+    opacity: 0.2;
+    animation: rotatePizza 3s linear infinite;
+  }
+
+  /* New animations */
+  @keyframes pizzaBounce {
+    0%, 100% {
+      transform: translateY(-5px) rotate(5deg);
+    }
+    50% {
+      transform: translateY(-8px) rotate(5deg);
+    }
+  }
+
+  @keyframes selectedPizzaNew {
     0% {
       transform: scale(1) rotate(0deg);
     }
+    25% {
+      transform: scale(1.3) rotate(15deg);
+    }
     50% {
-      transform: scale(1.2) rotate(5deg);
+      transform: scale(0.9) rotate(-10deg);
     }
     75% {
-      transform: scale(0.95) rotate(-2deg);
+      transform: scale(1.1) rotate(5deg);
     }
     100% {
-      transform: scale(1.1) rotate(0deg);
+      transform: scale(1.05) rotate(0deg);
     }
   }
 
-  /* Add a subtle pulse animation for the selected size */
-  .peer:checked + .pizzaSize::after {
-    content: '';
-    @apply absolute inset-0 rounded-md;
-    border: 2px solid white;
-    animation: pulseBorder 2s infinite;
-  }
-
-  @keyframes pulseBorder {
-    0% {
-      transform: scale(1);
-      opacity: 1;
+  @keyframes rotatePizza {
+    from {
+      transform: rotate(0deg);
     }
-    50% {
-      transform: scale(1.1);
-      opacity: 0.5;
-    }
-    100% {
-      transform: scale(1);
-      opacity: 1;
+    to {
+      transform: rotate(360deg);
     }
   }
 
@@ -205,5 +243,104 @@ input[type="radio"] {
 
   .bg-gradient-card {
     @apply bg-gradient-to-tr from-white via-gray-50 to-gray-100;
+  }
+
+  .pizza-name {
+    @apply font-pacifico text-2xl mb-2 relative;
+    color: var(--color-pizza-text);
+    text-shadow: 2px 2px 4px var(--color-pizza-name-glow);
+    transition: all 0.3s ease;
+  }
+
+  .pizza-name::after {
+    content: '';
+    @apply absolute left-0 bottom-0 w-0 h-0.5 bg-primary;
+    transition: width 0.3s ease;
+  }
+
+  .pizza-name:hover::after {
+    @apply w-full;
+  }
+
+  .pizza-name:hover {
+    transform: translateY(-2px);
+    color: var(--color-primary);
+  }
+
+  .pizza-description {
+    @apply text-center text-sm leading-relaxed max-w-xs mx-auto mb-4;
+    color: var(--color-pizza-description);
+    transition: all 0.3s ease;
+  }
+
+  .pizza-description:hover {
+    transform: scale(1.02);
+  }
+
+  .pizza-image {
+    @apply rounded-2xl shadow-lg transition-all duration-300 ease-in-out;
+    width: 280px;
+    height: 280px;
+    object-fit: cover;
+    transform: rotate(-2deg);
+    border: 4px solid white;
+    box-shadow: 
+      0 4px 6px var(--color-pizza-name-glow),
+      0 0 0 4px var(--color-pizza-crust);
+  }
+
+  .pizza-image:hover {
+    transform: rotate(2deg) scale(1.05);
+    box-shadow: 
+      0 8px 12px var(--color-pizza-name-glow),
+      0 0 0 4px var(--color-pizza-sauce);
+  }
+
+  .pizza-price {
+    @apply font-pacifico text-xl mt-4 px-6 py-2 rounded-full;
+    background: var(--color-pizza-price-bg);
+    color: var(--color-pizza-price-text);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pizza-price::before {
+    content: '';
+    @apply absolute inset-0 opacity-0;
+    background: linear-gradient(45deg, 
+      transparent 25%, 
+      rgba(255,255,255,0.4) 50%, 
+      transparent 75%
+    );
+    transform: translateX(-100%) rotate(45deg);
+    transition: all 0.6s ease;
+  }
+
+  .pizza-price:hover::before {
+    transform: translateX(100%) rotate(45deg);
+    opacity: 1;
+  }
+
+  .pizza-price:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--color-pizza-name-glow);
+  }
+
+  /* Add a container animation when the component mounts */
+  @keyframes pizzaCardEnter {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Add this class to your Pizza component's root div */
+  .flex.flex-col {
+    animation: pizzaCardEnter 0.5s ease-out forwards;
   }
 }
