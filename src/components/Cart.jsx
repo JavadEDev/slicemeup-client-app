@@ -1,0 +1,44 @@
+import { intl } from "./utils";
+
+function Cart({ cart, checkout }) {
+  let total = 0;
+  for (let i = 0; i < cart.length; i++) {
+    const current = cart[i];
+    total += current.pizza.sizes[current.size];
+  }
+
+  return (
+    <div className="cart-container">
+      <h2 className="cart-title">Your Pizza Cart 🛒</h2>
+      {cart.length === 0 ? (
+        <div className="empty-cart">
+          <p>Your cart is empty! Time to add some delicious pizzas! 🍕</p>
+        </div>
+      ) : (
+        <>
+          <ul className="cart-items">
+            {cart.map((item, index) => (
+              <li key={index} className="cart-item">
+                <div className="cart-item-info">
+                  <span className="pizza-size">{item.size}</span>
+                  <span className="pizza-name">{item.pizza.name}</span>
+                </div>
+                <span className="pizza-price">{item.price}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="cart-total">
+            <p>
+              Total: <span>{intl.format(total)}</span>
+            </p>
+          </div>
+          <button className="checkout-btn" onClick={checkout}>
+            Proceed to Checkout
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+
+export default Cart;
