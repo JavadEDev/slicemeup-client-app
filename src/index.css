@@ -35,6 +35,23 @@ input[type="radio"] {
   --color-pizza-select-hover: #fff0eb;
   --color-pizza-shadow: rgba(218, 47, 4, 0.15);
   --color-pizza-container-bg: rgba(255, 255, 255, 0.95);
+  /* New Pizza of the Day specific colors */
+  --color-pizza-of-day-bg: #fff5f2;
+  --color-pizza-of-day-border: #ffb088;
+  --color-pizza-of-day-highlight: #ff6b35;
+  --color-pizza-of-day-text: #2d3748;
+  --color-pizza-of-day-price: #e53e3e;
+  --color-pizza-of-day-glow: rgba(255, 107, 53, 0.3);
+  --color-pizza-of-day-badge: #ff6b35;
+  --color-pizza-of-day-badge-text: #ffffff;
+  /* New App specific colors */
+  --color-app-bg: #fff9f0;
+  --color-app-header: #da2f04;
+  --color-app-header-text: #ffffff;
+  --color-app-header-shadow: rgba(218, 47, 4, 0.3);
+  --color-app-content-bg: #ffffff;
+  --color-app-content-shadow: rgba(0, 0, 0, 0.1);
+  --color-app-divider: #ffd0c2;
 
   --font-display: "Oswald", "sans-serif"; 
   --font-pacifico: "Pacifico", "cursive"; 
@@ -44,28 +61,36 @@ input[type="radio"] {
   --gradient-primary: linear-gradient(to right, var(--color-primary), var(--color-secondary));
   --gradient-pizza: linear-gradient(to bottom right, #f59e0b, #ef4444, var(--color-primary));
   --gradient-overlay: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.2));
+  /* New Pizza of the Day gradients */
+  --gradient-pizza-of-day: linear-gradient(135deg, #ff9a8b 0%, #ff6b35 100%);
+  --gradient-pizza-of-day-card: linear-gradient(to bottom right, #fff5f2, #fff0eb);
+  /* New App gradients */
+  --gradient-app-header: linear-gradient(135deg, #da2f04 0%, #ff6b35 100%);
+  --gradient-app-content: linear-gradient(to bottom, #ffffff, #fff9f0);
 }
 
 @layer components {
   .title{
-    @apply font-pacifico text-primary relative text-center text-[40px] font-normal
+    @apply font-pacifico text-primary relative text-center text-[40px] font-normal;
+    text-shadow: 2px 2px 4px var(--color-pizza-name-glow);
+    transition: all 0.3s ease;
   }
-  .h2Title::after{
-    content: "";
-    display: inline-block;
-    margin-left: 25px;
-    width: 150px;
-    height: 30px;
-    background: conic-gradient(
-      transparent 90deg,
-      var(--color-primary) 90deg 180deg,
-      transparent 180deg 270deg,
-      var(--color-primary) 270deg
-    );
-    background-repeat: repeat;
-    background-size: 30px 30px;
-    background-position: top left;
+  
+  .title::after {
+    content: '';
+    @apply absolute left-0 bottom-0 w-0 h-0.5 bg-primary;
+    transition: width 0.3s ease;
   }
+  
+  .title:hover::after {
+    @apply w-full;
+  }
+  
+  .title:hover {
+    transform: translateY(-2px);
+    color: var(--color-pizza-sauce);
+  }
+
 
   .loading-pizza {
     @apply relative mx-auto w-32 h-32;
@@ -354,13 +379,10 @@ input[type="radio"] {
 
 /* Main container styles */
 .order-container {
-  @apply min-h-screen p-8 flex flex-col md:flex-row gap-8 items-center justify-center;
-  background: 
-    radial-gradient(circle at 10% 20%, var(--color-pizza-glow) 0%, transparent 20%),
-    radial-gradient(circle at 90% 80%, var(--color-pizza-glow) 0%, transparent 20%),
-    var(--color-pizza-form-bg);
+  @apply p-8 flex flex-col md:flex-row gap-8 items-stretch justify-center;
   position: relative;
   overflow: hidden;
+  min-height: 600px;
 }
 
 .order-container::before {
@@ -380,10 +402,13 @@ input[type="radio"] {
 
 /* Form container styles */
 .order-form {
-  @apply bg-white rounded-3xl p-8 shadow-xl relative z-10 w-full max-w-xl;
+  @apply bg-white/50 rounded-3xl p-8 shadow-xl relative z-10 w-full max-w-xl;
   backdrop-filter: blur(10px);
   border: 1px solid var(--color-pizza-input-border);
   animation: formSlideIn 0.8s ease-out forwards;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes formSlideIn {
@@ -435,11 +460,15 @@ input[type="radio"] {
 
 /* Pizza display section */
 .pizza-display {
-  @apply bg-white rounded-3xl p-8 shadow-xl relative z-10 w-full max-w-xl;
+  @apply bg-white/50 rounded-3xl p-8 shadow-xl relative z-10 w-full max-w-xl;
   animation: displaySlideIn 0.8s ease-out forwards;
   border: 1px solid var(--color-pizza-input-border);
   transform-style: preserve-3d;
   transition: transform 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .pizza-display:hover {
@@ -507,7 +536,7 @@ input[type="radio"] {
 
 .h2Title::before {
   content: '🍕';
-  @apply absolute -left-8 top-1/2 transform -translate-y-1/2;
+  @apply absolute -left-3 top-1/2 transform -translate-y-1/2;
   font-size: 1.5em;
   animation: spin 20s linear infinite;
 }
@@ -548,4 +577,355 @@ html {
 ::selection {
   background-color: var(--color-pizza-sauce);
   color: white;
+}
+
+/* Pizza of the Day Component Styles */
+.pizza-of-day-container {
+  @apply relative overflow-hidden rounded-3xl p-6 md:p-8 my-8;
+  background: var(--gradient-pizza-of-day-card);
+  border: 2px solid var(--color-pizza-of-day-border);
+  box-shadow: 0 10px 25px var(--color-pizza-of-day-glow);
+  animation: pizzaOfDayEntrance 0.8s ease-out forwards;
+  position: relative;
+}
+
+.pizza-of-day-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--gradient-pizza-of-day);
+  border-radius: 3px 3px 0 0;
+}
+
+.pizza-of-day-container::after {
+  content: '🍕';
+  position: absolute;
+  top: -8px;
+  right: 20px;
+  font-size: 2.5rem;
+  animation: pizzaFloat 3s ease-in-out infinite;
+}
+
+@keyframes pizzaFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(10deg);
+  }
+}
+
+.pizza-of-day-title {
+  @apply font-pacifico text-3xl md:text-4xl mb-6 relative inline-block;
+  color: var(--color-pizza-of-day-highlight);
+  text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.8);
+}
+
+.pizza-of-day-title::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--gradient-pizza-of-day);
+  border-radius: 3px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.pizza-of-day-container:hover .pizza-of-day-title::after {
+  transform: scaleX(1);
+}
+
+.pizza-of-day-content {
+  @apply flex flex-col md:flex-row gap-6 items-center;
+}
+
+.pizza-of-day-info {
+  @apply flex-1;
+}
+
+.pizza-of-day-name {
+  @apply font-pacifico text-2xl md:text-3xl mb-3;
+  color: var(--color-pizza-of-day-text);
+  position: relative;
+  display: inline-block;
+}
+
+.pizza-of-day-name::before {
+  content: '⭐';
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8em;
+  animation: starTwinkle 1.5s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(-50%) scale(1.2);
+  }
+}
+
+.pizza-of-day-description {
+  @apply text-base md:text-lg mb-4 leading-relaxed;
+  color: var(--color-pizza-of-day-text);
+  position: relative;
+  padding-left: 15px;
+  border-left: 3px solid var(--color-pizza-of-day-highlight);
+}
+
+.pizza-of-day-price {
+  @apply font-pacifico text-xl md:text-2xl mt-4 inline-block px-6 py-2 rounded-full;
+  background: var(--color-pizza-of-day-price);
+  color: white;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.pizza-of-day-price::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.6s ease;
+}
+
+.pizza-of-day-price:hover::before {
+  left: 100%;
+}
+
+.pizza-of-day-price:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(229, 62, 62, 0.4);
+}
+
+.pizza-of-day-image-container {
+  @apply relative flex-shrink-0;
+  width: 250px;
+  height: 250px;
+  perspective: 1000px;
+}
+
+.pizza-of-day-image {
+  @apply rounded-full object-cover w-full h-full;
+  border: 5px solid white;
+  box-shadow: 
+    0 5px 15px var(--color-pizza-of-day-glow),
+    0 0 0 5px var(--color-pizza-of-day-highlight);
+  transition: all 0.5s ease;
+  transform-style: preserve-3d;
+  transform: rotateY(-5deg) rotateX(5deg);
+}
+
+.pizza-of-day-image-container:hover .pizza-of-day-image {
+  transform: rotateY(5deg) rotateX(-5deg) scale(1.05);
+  box-shadow: 
+    0 10px 25px var(--color-pizza-of-day-glow),
+    0 0 0 5px var(--color-pizza-of-day-highlight);
+}
+
+.pizza-of-day-badge {
+  @apply absolute -top-3 -right-3 font-pacifico text-sm px-4 py-1 rounded-full;
+  background: var(--color-pizza-of-day-badge);
+  color: var(--color-pizza-of-day-badge-text);
+  box-shadow: 0 3px 10px rgba(255, 107, 53, 0.4);
+  animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes pizzaOfDayEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments for Pizza of the Day */
+@media (max-width: 768px) {
+  .pizza-of-day-content {
+    @apply flex-col;
+  }
+  
+  .pizza-of-day-image-container {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .pizza-of-day-badge {
+    @apply -top-2 -right-2 text-xs px-3;
+  }
+}
+
+/* App Component Styles */
+.app-container {
+  @apply min-h-screen flex flex-col;
+  background: var(--color-app-bg);
+  background-image: 
+    radial-gradient(circle at 10% 20%, var(--color-pizza-glow) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, var(--color-pizza-glow) 0%, transparent 20%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.app-header {
+  @apply relative z-10 py-4 px-6 md:px-8 flex items-center justify-between;
+  background: var(--gradient-app-header);
+  box-shadow: 0 4px 20px var(--color-app-header-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--color-pizza-crust);
+  box-shadow: 0 0 10px var(--color-pizza-glow);
+}
+
+.app-header::after {
+  content: '🍕';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  animation: pizzaSpin 10s linear infinite;
+}
+
+@keyframes pizzaSpin {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+.app-title {
+  @apply font-pacifico text-2xl md:text-3xl font-bold;
+  color: var(--color-app-header-text);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.app-title::before {
+  content: '🔥';
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8em;
+  animation: flameFlicker 1.5s ease-in-out infinite;
+}
+
+@keyframes flameFlicker {
+  0%, 100% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-50%) scale(1.1);
+  }
+}
+
+.app-title:hover {
+  transform: translateY(-2px);
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.app-content {
+  @apply flex-1 p-4 md:p-8 relative z-10;
+  animation: contentFadeIn 0.8s ease-out forwards;
+}
+
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.app-section {
+  @apply mb-12 relative;
+  animation: sectionSlideIn 0.6s ease-out forwards;
+  animation-delay: calc(var(--section-index, 0) * 0.2s);
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes sectionSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.app-section::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 2px;
+  background: var(--color-app-divider);
+  border-radius: 2px;
+}
+
+.app-section:last-child::after {
+  display: none;
+}
+
+/* Responsive adjustments for App */
+@media (max-width: 768px) {
+  .app-header {
+    @apply py-3 px-4;
+  }
+  
+  .app-title {
+    @apply text-xl;
+  }
+  
+  .app-content {
+    @apply p-4;
+  }
+  
+  .app-section {
+    @apply mb-8;
+  }
 }

@@ -7,7 +7,7 @@ function Order() {
   const [pizzaSize, setPizzaSize] = useState("M");
   const [pizzaTypes, setPizzaTypes] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [cart, setCart] = useState([]);
   let price, selectedPizza;
 
   if (!loading) {
