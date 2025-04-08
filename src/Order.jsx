@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Pizza from "./Pizza";
-
-const intl = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-});
-
+import Pizza from "./components/Pizza";
+import Loading from "./components/loading";
+import { intl } from "./components/utils";
 function Order() {
   const [pizzaType, setPizzaType] = useState("pepperoni");
   const [pizzaSize, setPizzaSize] = useState("M");
@@ -31,21 +27,18 @@ function Order() {
   }, []);
 
   return (
-    <div>
-      <h2 className="h2Title title">Create Order</h2>
-      <form className="flex w-full flex-col justify-between">
-        <div className="flex-1/2 pr-4 text-center">
-          <div className="p-4">
-            <label
-              htmlFor="pizza-type"
-              className="text-secondary mb-2 block text-[20px]"
-            >
-              Pizza Type
+    <div className="order-container">
+      <div className="order-form">
+        <h2 className="h2Title title">Create Order</h2>
+        <form className="flex flex-col gap-8">
+          <div className="form-section">
+            <label htmlFor="pizza-type" className="form-label">
+              Choose Your Pizza
             </label>
             <select
               name="pizza-type"
               value={pizzaType}
-              className="border-border mb-8 block w-full rounded border p-1 text-[16px]"
+              className="pizza-select"
               onChange={(e) => setPizzaType(e.target.value)}
             >
               {pizzaTypes.map((pizza) => (
@@ -55,73 +48,43 @@ function Order() {
               ))}
             </select>
           </div>
-        </div>
 
-        <div className="flex-1/2 pl-4 text-center">
-          <div className="p-4">
-            <label
-              htmlFor="pizza-size"
-              className="text-secondary mb-2 block text-[20px]"
-            >
-              Pizza Size
+          <div className="form-section">
+            <label htmlFor="pizza-size" className="form-label">
+              Select Your Size
             </label>
-
-            <div className="flex flex-wrap justify-center gap-4">
-              <div className="relative">
-                <input
-                  checked={pizzaSize === "S"}
-                  type="radio"
-                  id="pizza-s"
-                  name="pizza-size"
-                  value="S"
-                  onChange={(e) => setPizzaSize(e.target.value)}
-                  className="peer"
-                />
-                <label htmlFor="pizza-s" className="pizzaSize">
-                  Small
-                </label>
-              </div>
-              <div className="relative">
-                <input
-                  checked={pizzaSize === "M"}
-                  type="radio"
-                  id="pizza-m"
-                  name="pizza-size"
-                  value="M"
-                  onChange={(e) => setPizzaSize(e.target.value)}
-                  className="peer"
-                />
-                <label htmlFor="pizza-m" className="pizzaSize">
-                  Medium
-                </label>
-              </div>
-              <div className="relative">
-                <input
-                  checked={pizzaSize === "L"}
-                  type="radio"
-                  id="pizza-l"
-                  name="pizza-size"
-                  value="L"
-                  onChange={(e) => setPizzaSize(e.target.value)}
-                  className="peer"
-                />
-                <label htmlFor="pizza-l" className="pizzaSize">
-                  Large
-                </label>
-              </div>
+            <div className="size-container">
+              {["S", "M", "L"].map((size) => (
+                <div key={size} className="relative">
+                  <input
+                    checked={pizzaSize === size}
+                    type="radio"
+                    id={`pizza-${size.toLowerCase()}`}
+                    name="pizza-size"
+                    value={size}
+                    onChange={(e) => setPizzaSize(e.target.value)}
+                    className="peer"
+                  />
+                  <label
+                    htmlFor={`pizza-${size.toLowerCase()}`}
+                    className="pizzaSize"
+                  >
+                    {size === "S" ? "Small" : size === "M" ? "Medium" : "Large"}
+                  </label>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-        <button className="btn" type="submit">
-          Add to Cart
-        </button>
-      </form>
-      <div>
+
+          <button className="btn" type="submit">
+            Add to Cart
+          </button>
+        </form>
+      </div>
+
+      <div className="pizza-display">
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-8">
-            <div className="loading-pizza"></div>
-            <div className="loading-text">Loading pizza...</div>
-          </div>
+          <Loading />
         ) : (
           <Pizza
             name={selectedPizza.name}

@@ -28,6 +28,13 @@ input[type="radio"] {
   --color-pizza-description: #4a5568;
   --color-pizza-price-bg: #fdf2f8;
   --color-pizza-price-text: #da2f04;
+  --color-pizza-form-bg: #fff8f5;
+  --color-pizza-input-border: #ffd0c2;
+  --color-pizza-input-focus: #ff8562;
+  --color-pizza-label: #4a5568;
+  --color-pizza-select-hover: #fff0eb;
+  --color-pizza-shadow: rgba(218, 47, 4, 0.15);
+  --color-pizza-container-bg: rgba(255, 255, 255, 0.95);
 
   --font-display: "Oswald", "sans-serif"; 
   --font-pacifico: "Pacifico", "cursive"; 
@@ -95,7 +102,7 @@ input[type="radio"] {
   }
 
   .loading-text {
-    @apply font-pacifico text-primary text-xl text-center mt-4;
+    @apply font-pacifico text-accent text-xl text-center mt-4;
     animation: loading-pulse 1.5s infinite;
   }
 
@@ -343,4 +350,202 @@ input[type="radio"] {
   .flex.flex-col {
     animation: pizzaCardEnter 0.5s ease-out forwards;
   }
+}
+
+/* Main container styles */
+.order-container {
+  @apply min-h-screen p-8 flex flex-col md:flex-row gap-8 items-center justify-center;
+  background: 
+    radial-gradient(circle at 10% 20%, var(--color-pizza-glow) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, var(--color-pizza-glow) 0%, transparent 20%),
+    var(--color-pizza-form-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.order-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/public/pizza-bg.svg') repeat;
+  opacity: 0.05;
+  z-index: 0;
+  animation: slowRotate 120s linear infinite;
+}
+
+@keyframes slowRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Form container styles */
+.order-form {
+  @apply bg-white rounded-3xl p-8 shadow-xl relative z-10 w-full max-w-xl;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--color-pizza-input-border);
+  animation: formSlideIn 0.8s ease-out forwards;
+}
+
+@keyframes formSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Form section styles */
+.form-section {
+  @apply mb-6;
+}
+
+.form-label {
+  @apply block mb-3 font-pacifico text-xl;
+  color: var(--color-pizza-label);
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Select styles */
+.pizza-select {
+  @apply w-full px-4 py-3 rounded-xl border-2 appearance-none cursor-pointer;
+  background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23da2f04'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E") no-repeat right 1rem center;
+  background-size: 1.5em;
+  border-color: var(--color-pizza-input-border);
+  transition: all 0.3s ease;
+}
+
+.pizza-select:hover {
+  background-color: var(--color-pizza-select-hover);
+}
+
+.pizza-select:focus {
+  @apply outline-none;
+  border-color: var(--color-pizza-input-focus);
+  box-shadow: 0 0 0 3px var(--color-pizza-shadow);
+}
+
+/* Size container styles */
+.size-container {
+  @apply flex flex-wrap justify-center gap-6 mt-4;
+  perspective: 1000px;
+}
+
+/* Pizza display section */
+.pizza-display {
+  @apply bg-white rounded-3xl p-8 shadow-xl relative z-10 w-full max-w-xl;
+  animation: displaySlideIn 0.8s ease-out forwards;
+  border: 1px solid var(--color-pizza-input-border);
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.pizza-display:hover {
+  transform: rotateY(5deg);
+}
+
+@keyframes displaySlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Loading styles enhancement */
+.loading-container {
+  @apply flex flex-col items-center justify-center min-h-[400px];
+}
+
+.loading-pizza {
+  @apply relative mx-auto w-32 h-32;
+  animation: loadingBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes loadingBounce {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+  }
+}
+
+/* Button enhancement */
+.btn {
+  @apply relative overflow-hidden;
+  transition: all 0.4s ease;
+}
+
+.btn::before {
+  content: '';
+  @apply absolute inset-0 opacity-0;
+  background: linear-gradient(45deg, 
+    transparent 25%, 
+    rgba(255,255,255,0.4) 50%, 
+    transparent 75%
+  );
+  transform: translateX(-100%) rotate(45deg);
+  transition: all 0.6s ease;
+}
+
+.btn:hover::before {
+  transform: translateX(100%) rotate(45deg);
+  opacity: 1;
+}
+
+/* Form title enhancement */
+.h2Title {
+  @apply mb-8 relative;
+  text-shadow: 2px 2px 4px var(--color-pizza-shadow);
+}
+
+.h2Title::before {
+  content: '🍕';
+  @apply absolute -left-8 top-1/2 transform -translate-y-1/2;
+  font-size: 1.5em;
+  animation: spin 20s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .order-container {
+    @apply flex-col p-4;
+  }
+
+  .order-form,
+  .pizza-display {
+    @apply w-full max-w-full;
+  }
+
+  .size-container {
+    @apply gap-4;
+  }
+}
+
+/* Enhanced focus styles for accessibility */
+:focus {
+  @apply outline-none;
+  box-shadow: 0 0 0 3px var(--color-pizza-shadow);
+}
+
+/* Smooth scrolling for the whole page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Add some personality to the selection color */
+::selection {
+  background-color: var(--color-pizza-sauce);
+  color: white;
 }
