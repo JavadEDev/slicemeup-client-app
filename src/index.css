@@ -46,9 +46,6 @@ input[type="radio"] {
   --color-pizza-of-day-badge-text: #ffffff;
   /* New App specific colors */
   --color-app-bg: #fff9f0;
-  --color-app-header: #da2f04;
-  --color-app-header-text: #ffffff;
-  --color-app-header-shadow: rgba(218, 47, 4, 0.3);
   --color-app-content-bg: #ffffff;
   --color-app-content-shadow: rgba(0, 0, 0, 0.1);
   --color-app-divider: #ffd0c2;
@@ -65,7 +62,6 @@ input[type="radio"] {
   --gradient-pizza-of-day: linear-gradient(135deg, #ff9a8b 0%, #ff6b35 100%);
   --gradient-pizza-of-day-card: linear-gradient(to bottom right, #fff5f2, #fff0eb);
   /* New App gradients */
-  --gradient-app-header: linear-gradient(135deg, #da2f04 0%, #ff6b35 100%);
   --gradient-app-content: linear-gradient(to bottom, #ffffff, #fff9f0);
 }
 
@@ -377,7 +373,7 @@ input[type="radio"] {
 
 /* Main container styles */
 .order-container {
-  @apply p-8 flex flex-col md:flex-row gap-8 items-stretch justify-center;
+  @apply p-8 flex flex-col md:flex-row gap-8 items-stretch justify-center mt-8;
   position: relative;
   overflow: hidden;
   min-height: 600px;
@@ -785,77 +781,9 @@ html {
   overflow-x: hidden;
 }
 
-.app-header {
-  @apply relative z-10 py-4 px-6 md:px-8 flex items-center justify-between;
-  background: var(--gradient-app-header);
-  box-shadow: 0 4px 20px var(--color-app-header-shadow);
-  position: relative;
-  overflow: hidden;
-}
-
-.app-header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: var(--color-pizza-crust);
-  box-shadow: 0 0 10px var(--color-pizza-glow);
-}
-
-.app-header::after {
-  content: '🍕';
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 2rem;
-  animation: pizzaSpin 10s linear infinite;
-}
-
-@keyframes pizzaSpin {
-  from { transform: translateY(-50%) rotate(0deg); }
-  to { transform: translateY(-50%) rotate(360deg); }
-}
-
-.app-title {
-  @apply font-pacifico text-2xl md:text-3xl font-bold;
-  color: var(--color-app-header-text);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  position: relative;
-  display: inline-block;
-  transition: all 0.3s ease;
-}
-
-.app-title::before {
-  content: '🔥';
-  position: absolute;
-  left: -30px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.8em;
-  animation: flameFlicker 1.5s ease-in-out infinite;
-}
-
-@keyframes flameFlicker {
-  0%, 100% {
-    opacity: 1;
-    transform: translateY(-50%) scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: translateY(-50%) scale(1.1);
-  }
-}
-
-.app-title:hover {
-  transform: translateY(-2px);
-  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
-}
 
 .app-content {
-  @apply flex-1 p-4 md:p-8 relative z-10;
+  @apply flex-1 p-4 md:p-8 relative z-10 pt-20;
   animation: contentFadeIn 0.8s ease-out forwards;
 }
 
@@ -903,13 +831,6 @@ html {
 
 /* Responsive adjustments for App */
 @media (max-width: 768px) {
-  .app-header {
-    @apply py-3 px-4;
-  }
-  
-  .app-title {
-    @apply text-xl;
-  }
   
   .app-content {
     @apply p-4;
@@ -1066,3 +987,94 @@ html {
     @apply text-base;
   }
 }
+
+/* Header Styles */
+.header {
+  @apply fixed top-0 left-0 right-0 z-50;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-pizza-input-border);
+  box-shadow: 0 4px 20px rgba(218, 47, 4, 0.1);
+  animation: headerSlideDown 0.8s ease-out forwards;
+}
+
+.header-content {
+  @apply max-w-7xl mx-auto px-4 py-3 flex items-center justify-between;
+}
+
+.header-title {
+  @apply font-pacifico relative flex flex-col items-start;
+  color: var(--color-primary);
+  text-shadow: 2px 2px 4px var(--color-pizza-name-glow);
+}
+
+.header-subtitle {
+  @apply text-sm font-sans mt-1;
+  color: var(--color-pizza-description);
+  letter-spacing: 0.05em;
+}
+
+.cart-icon {
+  @apply relative cursor-pointer text-2xl transition-transform duration-300 ease-in-out;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.cart-icon:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.cart-count {
+  @apply absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center 
+         text-xs font-bold bg-primary text-white rounded-full;
+  border: 2px solid white;
+  animation: cartBounce 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Update the app-content padding to account for fixed header */
+.app-content {
+  @apply pt-20 px-4 md:px-8; /* Increased padding-top to move content below header */
+}
+
+/* Update the order-container spacing */
+.order-container {
+  @apply mt-8; /* Add margin-top to create space below header */
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .header-content {
+    @apply py-4;
+  }
+  
+  .header-title {
+    @apply text-3xl;
+  }
+  
+  .app-content {
+    @apply pt-24; /* Larger padding for larger screens */
+  }
+}
+
+/* Keep existing header animations */
+@keyframes headerSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cartBounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+
+
