@@ -1015,7 +1015,7 @@ html {
 }
 
 .cart-icon {
-  @apply relative cursor-pointer text-2xl transition-transform duration-300 ease-in-out;
+  @apply relative cursor-pointer text-3xl transition-transform duration-300 ease-in-out;
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
 }
 
@@ -1024,8 +1024,7 @@ html {
 }
 
 .cart-count {
-  @apply absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center 
-         text-xs font-bold bg-primary text-white rounded-full;
+  @apply absolute -top-2 right-3 w-5 h-5 flex items-center justify-center text-sm font-bold bg-primary text-white rounded-full;
   border: 2px solid white;
   animation: cartBounce 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }

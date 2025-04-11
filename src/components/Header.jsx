@@ -1,6 +1,9 @@
-import React from "react";
+import { useContext } from "react";
+import { CartContext } from "./contexts";
 
 function Header() {
+  const [cart] = useContext(CartContext);
+
   return (
     <nav className="header">
       <div className="header-content">
@@ -10,7 +13,7 @@ function Header() {
         </h1>
         <div className="cart-icon">
           🛒
-          <span className="cart-count">5</span>
+          <span className="cart-count">{cart.length}</span>
         </div>
       </div>
     </nav>
