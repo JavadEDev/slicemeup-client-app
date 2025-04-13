@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
-import Pizza from "./components/Pizza";
-import Loading from "./components/loading";
-import { intl } from "./components/utils";
-import Cart from "./components/Cart";
-import { CartContext } from "./components/contexts";
+import { createLazyFileRoute } from "@tanstack/react-router";
+import Pizza from "../components/Pizza";
+import Loading from "../components/loading";
+import { intl } from "../components/utils";
+import Cart from "../components/Cart";
+import { CartContext } from "../components/contexts";
+
+export const Route = createLazyFileRoute("/order")({
+  component: Order,
+});
 
 function Order() {
   const [pizzaType, setPizzaType] = useState("pepperoni");
@@ -128,5 +133,3 @@ function Order() {
     </>
   );
 }
-
-export default Order;

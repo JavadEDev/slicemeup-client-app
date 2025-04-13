@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { CartContext } from "./contexts";
+import { Link } from "@tanstack/react-router";
 
 function Header() {
   const [cart] = useContext(CartContext);
@@ -7,10 +8,9 @@ function Header() {
   return (
     <nav className="header">
       <div className="header-content">
-        <h1 className="header-title">
-          Pizza Zero
-          <span className="header-subtitle">Order Now</span>
-        </h1>
+        <Link to="/">
+          <h1 className="header-title">Pizza Zero</h1>
+        </Link>
         <div className="cart-icon">
           🛒
           <span className="cart-count">{cart.length}</span>
