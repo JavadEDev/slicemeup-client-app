@@ -1025,7 +1025,7 @@ html {
 }
 
 /* Update the app-content padding to account for fixed header */
-  .app-content {
+.app-content {
   @apply pt-20 px-4 md:px-8; /* Increased padding-top to move content below header */
 }
 
@@ -1188,6 +1188,130 @@ html {
   
   .home-action-btn {
     @apply text-lg px-6 py-3;
+  }
+}
+
+/* Past Orders Styles */
+.past-orders-container {
+  @apply w-full max-w-4xl mx-auto p-6 ;
+  animation: pastOrdersFadeIn 1s ease-out forwards;
+}
+
+.past-orders-title {
+  @apply font-pacifico text-3xl md:text-4xl text-center mb-8;
+  color: var(--color-primary);
+  text-shadow: 2px 2px 0 var(--color-pizza-name-glow);
+  position: relative;
+}
+
+.past-orders-title::after {
+  content: '';
+  @apply absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1;
+  background: var(--gradient-pizza);
+  border-radius: 2px;
+}
+
+.past-orders-table-container {
+  @apply overflow-x-auto rounded-2xl shadow-lg;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--color-pizza-input-border);
+}
+
+.past-orders-table {
+  @apply w-full border-collapse;
+}
+
+.past-orders-header {
+  @apply bg-primary/40;
+}
+
+.past-orders-th {
+  @apply font-pacifico text-lg p-4 text-center;
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-pizza-input-border);
+}
+
+.past-orders-row {
+  @apply transition-all duration-300 text-center;
+  border-bottom: 1px solid var(--color-pizza-input-border);
+}
+
+.past-orders-row:nth-child(odd) {
+  @apply bg-white/50;
+}
+
+.past-orders-row:nth-child(even) {
+  @apply bg-primary/10;
+}
+
+.past-orders-row:last-child {
+  border-bottom: none;
+}
+
+.past-orders-td {
+  @apply p-4 font-sans text-center;
+  color: var(--color-pizza-text);
+}
+
+.past-orders-pagination {
+  @apply flex items-center justify-center gap-4 mt-8;
+}
+
+.past-orders-btn {
+  @apply font-pacifico px-6 py-2 rounded-xl transition-all duration-300;
+  background: var(--color-primary);
+  color: white;
+  box-shadow: 0 4px 12px var(--color-pizza-shadow);
+}
+
+.past-orders-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--color-pizza-shadow);
+}
+
+.past-orders-btn:disabled {
+  @apply opacity-50 cursor-not-allowed;
+  color: var(--color-primary);
+  background: var(--color-muted);
+}
+
+.past-orders-page {
+  @apply font-pacifico text-lg;
+  color: var(--color-primary);
+}
+
+@keyframes pastOrdersFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .past-orders-container {
+    @apply p-4;
+  }
+  
+  .past-orders-title {
+    @apply text-2xl mb-6;
+  }
+  
+  .past-orders-th {
+    @apply text-base p-3;
+  }
+  
+  .past-orders-td {
+    @apply p-3 text-sm;
+  }
+  
+  .past-orders-btn {
+    @apply px-4 py-1.5 text-sm;
   }
 }
 

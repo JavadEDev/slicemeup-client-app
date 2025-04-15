@@ -1,10 +1,11 @@
 import { Suspense, useState } from "react";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PizzaOfTheDay from "../components/pizzaOfTheDay";
 import Header from "../components/Header";
 import { CartContext } from "../components/contexts";
-import Loading from "../components/loading";
+import Loading from "../components/Loading";
 
 export const Root = () => {
   const cartHook = useState([]);
@@ -26,6 +27,7 @@ export const Root = () => {
         </div>
       </CartContext>
       <TanStackRouterDevtools />
+      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
 };
