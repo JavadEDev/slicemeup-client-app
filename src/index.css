@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
 @import "tailwindcss";
 
 @font-face {
-    font-family: 'Pacifico';
-    src: url('/public/Pacifico-Regular.ttf');
-  }
+  font-family: "Pacifico";
+  src: url("/public/Pacifico-Regular.ttf");
+}
 
 input[type="radio"] {
   display: none;
@@ -15,8 +15,8 @@ input[type="radio"] {
   --color-tahiti: #3ab7bf;
   --color-bermuda: #78dcca;
   --color-primary: #da2f04;
-  --color-secondary: #33670a; 
-  --color-background: #fffaee; 
+  --color-secondary: #33670a;
+  --color-background: #fffaee;
   --color-border: #cccccc;
   --color-accent: #fbbf24;
   --color-muted: #f3f4f6;
@@ -50,51 +50,67 @@ input[type="radio"] {
   --color-app-content-shadow: rgba(0, 0, 0, 0.1);
   --color-app-divider: #ffd0c2;
 
-  --font-display: "Oswald", "sans-serif"; 
-  --font-pacifico: "Pacifico", "cursive"; 
-  --font-sans:"Inter", "ui-sans-serif", "system-ui"; 
-  --font-base: "Arial", "sans-serif"; 
+  --font-display: "Oswald", "sans-serif";
+  --font-pacifico: "Pacifico", "cursive";
+  --font-sans: "Inter", "ui-sans-serif", "system-ui";
+  --font-base: "Arial", "sans-serif";
 
-  --gradient-primary: linear-gradient(to right, var(--color-primary), var(--color-secondary));
-  --gradient-pizza: linear-gradient(to bottom right, #f59e0b, #ef4444, var(--color-primary));
-  --gradient-overlay: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.2));
+  --gradient-primary: linear-gradient(
+    to right,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+  --gradient-pizza: linear-gradient(
+    to bottom right,
+    #f59e0b,
+    #ef4444,
+    var(--color-primary)
+  );
+  --gradient-overlay: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.2)
+  );
   /* New Pizza of the Day gradients */
   --gradient-pizza-of-day: linear-gradient(135deg, #ff9a8b 0%, #ff6b35 100%);
-  --gradient-pizza-of-day-card: linear-gradient(to bottom right, #fff5f2, #fff0eb);
+  --gradient-pizza-of-day-card: linear-gradient(
+    to bottom right,
+    #fff5f2,
+    #fff0eb
+  );
   /* New App gradients */
   --gradient-app-content: linear-gradient(to bottom, #ffffff, #fff9f0);
 }
 
 @layer components {
-  .title{
+  .title {
     @apply font-pacifico text-primary relative text-center text-[40px] font-normal;
     text-shadow: 2px 2px 4px var(--color-pizza-name-glow);
     transition: all 0.3s ease;
   }
-  
+
   .title::after {
-    content: '';
-    @apply absolute left-0 bottom-0 w-0 h-0.5 bg-primary;
+    content: "";
+    @apply bg-primary absolute bottom-0 left-0 h-0.5 w-0;
     transition: width 0.3s ease;
   }
-  
+
   .title:hover::after {
     @apply w-full;
   }
-  
+
   .title:hover {
     transform: translateY(-2px);
     color: var(--color-pizza-sauce);
   }
 
-
   .loading-pizza {
-    @apply relative mx-auto w-32 h-32;
+    @apply relative mx-auto h-32 w-32;
   }
 
   .loading-pizza::before,
   .loading-pizza::after {
-    content: '';
+    content: "";
     @apply absolute inset-0 rounded-full;
     background: var(--color-primary);
     animation: pizza-spin 2s infinite linear;
@@ -123,12 +139,13 @@ input[type="radio"] {
   }
 
   .loading-text {
-    @apply font-pacifico text-accent text-xl text-center mt-4;
+    @apply font-pacifico text-accent mt-4 text-center text-xl;
     animation: loading-pulse 1.5s infinite;
   }
 
   @keyframes loading-pulse {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
     }
     50% {
@@ -136,8 +153,8 @@ input[type="radio"] {
     }
   }
 
-  .btn {    
-    @apply mx-auto block my-4 transition-all duration-200 ease-in-out hover:scale-105 active:scale-95;
+  .btn {
+    @apply mx-auto my-4 block transition-all duration-200 ease-in-out hover:scale-105 active:scale-95;
     border: 1px solid var(--color-primary);
     width: fit-content;
     background-color: transparent;
@@ -161,16 +178,14 @@ input[type="radio"] {
     box-shadow: 0 2px 4px rgba(218, 47, 4, 0.1);
   }
   .pizzaSize {
-    @apply flex h-[80px] w-[80px] cursor-pointer items-center justify-center rounded-full 
-    border-4 border-pizza-sauce text-gray-700 bg-white relative overflow-hidden
-    transition-all duration-300 ease-in-out;
+    @apply border-pizza-sauce relative flex h-[80px] w-[80px] cursor-pointer items-center justify-center overflow-hidden rounded-full border-4 bg-white text-gray-700 transition-all duration-300 ease-in-out;
     position: relative;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   /* Pizza slice pattern background */
   .pizzaSize::before {
-    content: '';
+    content: "";
     @apply absolute inset-0;
     background-image: repeating-conic-gradient(
       from 0deg,
@@ -202,7 +217,7 @@ input[type="radio"] {
 
   /* Selected state */
   .peer:checked + .pizzaSize {
-    @apply bg-pizza-sauce text-white border-pizza-crust;
+    @apply bg-pizza-sauce border-pizza-crust text-white;
     animation: selectedPizzaNew 0.6s ease-out forwards;
     box-shadow: 0 0 25px var(--color-pizza-glow);
   }
@@ -214,7 +229,8 @@ input[type="radio"] {
 
   /* New animations */
   @keyframes pizzaBounce {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(-5px) rotate(5deg);
     }
     50% {
@@ -249,14 +265,13 @@ input[type="radio"] {
     }
   }
 
-
   /* Gradient Patterns */
   .bg-gradient-primary {
-    @apply bg-gradient-to-r from-primary to-secondary;
+    @apply from-primary to-secondary bg-gradient-to-r;
   }
 
   .bg-gradient-pizza {
-    @apply bg-gradient-to-br from-amber-500 via-red-500 to-primary;
+    @apply to-primary bg-gradient-to-br from-amber-500 via-red-500;
   }
 
   .bg-gradient-menu {
@@ -264,7 +279,7 @@ input[type="radio"] {
   }
 
   .bg-gradient-hero {
-    @apply bg-gradient-to-b from-primary/90 to-secondary/90;
+    @apply from-primary/90 to-secondary/90 bg-gradient-to-b;
   }
 
   .bg-gradient-card {
@@ -272,15 +287,15 @@ input[type="radio"] {
   }
 
   .pizza-name {
-    @apply font-pacifico text-2xl mb-2 relative;
+    @apply font-pacifico relative mb-2 text-2xl;
     color: var(--color-pizza-text);
     text-shadow: 2px 2px 4px var(--color-pizza-name-glow);
     transition: all 0.3s ease;
   }
 
   .pizza-name::after {
-    content: '';
-    @apply absolute left-0 bottom-0 w-0 h-0.5 bg-primary;
+    content: "";
+    @apply bg-primary absolute bottom-0 left-0 h-0.5 w-0;
     transition: width 0.3s ease;
   }
 
@@ -294,7 +309,7 @@ input[type="radio"] {
   }
 
   .pizza-description {
-    @apply text-center text-sm leading-relaxed max-w-xs mx-auto mb-4;
+    @apply mx-auto mb-4 max-w-xs text-center text-sm leading-relaxed;
     color: var(--color-pizza-description);
     transition: all 0.3s ease;
   }
@@ -310,20 +325,20 @@ input[type="radio"] {
     object-fit: cover;
     transform: rotate(-2deg);
     border: 4px solid white;
-    box-shadow: 
+    box-shadow:
       0 4px 6px var(--color-pizza-name-glow),
       0 0 0 4px var(--color-pizza-crust);
   }
 
   .pizza-image:hover {
     transform: rotate(2deg) scale(1.05);
-    box-shadow: 
+    box-shadow:
       0 8px 12px var(--color-pizza-name-glow),
       0 0 0 4px var(--color-pizza-sauce);
   }
 
   .pizza-price {
-    @apply font-pacifico text-xl mt-4 px-6 py-2 rounded-full;
+    @apply font-pacifico mt-4 rounded-full px-6 py-2 text-xl;
     background: var(--color-pizza-price-bg);
     color: var(--color-pizza-price-text);
     transition: all 0.3s ease;
@@ -332,11 +347,12 @@ input[type="radio"] {
   }
 
   .pizza-price::before {
-    content: '';
+    content: "";
     @apply absolute inset-0 opacity-0;
-    background: linear-gradient(45deg, 
-      transparent 25%, 
-      rgba(255,255,255,0.4) 50%, 
+    background: linear-gradient(
+      45deg,
+      transparent 25%,
+      rgba(255, 255, 255, 0.4) 50%,
       transparent 75%
     );
     transform: translateX(-100%) rotate(45deg);
@@ -373,22 +389,24 @@ input[type="radio"] {
 
 /* Main container styles */
 .order-container {
-  @apply p-8 flex flex-col md:flex-row gap-8 items-stretch justify-center mt-8;
+  @apply mt-8 flex flex-col items-stretch justify-center gap-8 p-8 md:flex-row;
   position: relative;
   overflow: hidden;
   min-height: 600px;
 }
 
-
-
 @keyframes slowRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Form container styles */
 .order-form {
-  @apply bg-white/50 rounded-3xl p-8 shadow-xl relative z-10 w-full max-w-xl;
+  @apply relative z-10 w-full max-w-xl rounded-3xl bg-white/50 p-8 shadow-xl;
   backdrop-filter: blur(10px);
   border: 1px solid var(--color-pizza-input-border);
   animation: formSlideIn 0.8s ease-out forwards;
@@ -414,15 +432,17 @@ input[type="radio"] {
 }
 
 .form-label {
-  @apply block mb-3 font-pacifico text-xl;
+  @apply font-pacifico mb-3 block text-xl;
   color: var(--color-pizza-label);
   text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 /* Select styles */
 .pizza-select {
-  @apply w-full px-4 py-3 rounded-xl border-2 appearance-none cursor-pointer;
-  background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23da2f04'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E") no-repeat right 1rem center;
+  @apply w-full cursor-pointer appearance-none rounded-xl border-2 px-4 py-3;
+  background: white
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23da2f04'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")
+    no-repeat right 1rem center;
   background-size: 1.5em;
   border-color: var(--color-pizza-input-border);
   transition: all 0.3s ease;
@@ -440,13 +460,13 @@ input[type="radio"] {
 
 /* Size container styles */
 .size-container {
-  @apply flex flex-wrap justify-center gap-6 mt-4;
+  @apply mt-4 flex flex-wrap justify-center gap-6;
   perspective: 1000px;
 }
 
 /* Pizza display section */
 .pizza-display {
-  @apply bg-white/50 rounded-3xl p-8 shadow-xl relative z-10 w-full max-w-xl;
+  @apply relative z-10 w-full max-w-xl rounded-3xl bg-white/50 p-8 shadow-xl;
   animation: displaySlideIn 0.8s ease-out forwards;
   border: 1px solid var(--color-pizza-input-border);
   transform-style: preserve-3d;
@@ -474,16 +494,17 @@ input[type="radio"] {
 
 /* Loading styles enhancement */
 .loading-container {
-  @apply flex flex-col items-center justify-center min-h-[400px];
+  @apply flex min-h-[400px] flex-col items-center justify-center;
 }
 
 .loading-pizza {
-  @apply relative mx-auto w-32 h-32;
+  @apply relative mx-auto h-32 w-32;
   animation: loadingBounce 1.5s ease-in-out infinite;
 }
 
 @keyframes loadingBounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
   50% {
@@ -498,11 +519,12 @@ input[type="radio"] {
 }
 
 .btn::before {
-  content: '';
+  content: "";
   @apply absolute inset-0 opacity-0;
-  background: linear-gradient(45deg, 
-    transparent 25%, 
-    rgba(255,255,255,0.4) 50%, 
+  background: linear-gradient(
+    45deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.4) 50%,
     transparent 75%
   );
   transform: translateX(-100%) rotate(45deg);
@@ -516,20 +538,24 @@ input[type="radio"] {
 
 /* Form title enhancement */
 .h2Title {
-  @apply mb-8 relative;
+  @apply relative mb-8;
   text-shadow: 2px 2px 4px var(--color-pizza-shadow);
 }
 
 .h2Title::before {
-  content: '🍕';
-  @apply absolute -left-3 top-1/2 transform -translate-y-1/2;
+  content: "🍕";
+  @apply absolute top-1/2 -left-3 -translate-y-1/2 transform;
   font-size: 1.5em;
   animation: spin 20s linear infinite;
 }
 
 @keyframes spin {
-  from { transform: translateY(-50%) rotate(0deg); }
-  to { transform: translateY(-50%) rotate(360deg); }
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
 }
 
 /* Media queries for responsive design */
@@ -567,7 +593,7 @@ html {
 
 /* Pizza of the Day Component Styles */
 .pizza-of-day-container {
-  @apply relative overflow-hidden rounded-3xl p-6 md:p-8 my-8;
+  @apply relative my-8 overflow-hidden rounded-3xl p-6 md:p-8;
   background: var(--gradient-pizza-of-day-card);
   border: 2px solid var(--color-pizza-of-day-border);
   box-shadow: 0 10px 25px var(--color-pizza-of-day-glow);
@@ -576,7 +602,7 @@ html {
 }
 
 .pizza-of-day-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -587,7 +613,7 @@ html {
 }
 
 .pizza-of-day-container::after {
-  content: '🍕';
+  content: "🍕";
   position: absolute;
   top: -8px;
   right: 20px;
@@ -596,7 +622,8 @@ html {
 }
 
 @keyframes pizzaFloat {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
   50% {
@@ -605,13 +632,13 @@ html {
 }
 
 .pizza-of-day-title {
-  @apply font-pacifico text-3xl md:text-4xl mb-6 relative inline-block;
+  @apply font-pacifico relative mb-6 inline-block text-3xl md:text-4xl;
   color: var(--color-pizza-of-day-highlight);
   text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.8);
 }
 
 .pizza-of-day-title::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -5px;
   left: 0;
@@ -629,7 +656,7 @@ html {
 }
 
 .pizza-of-day-content {
-  @apply flex flex-col md:flex-row gap-6 items-center;
+  @apply flex flex-col items-center gap-6 md:flex-row;
 }
 
 .pizza-of-day-info {
@@ -637,14 +664,14 @@ html {
 }
 
 .pizza-of-day-name {
-  @apply font-pacifico text-2xl md:text-3xl mb-3;
+  @apply font-pacifico mb-3 text-2xl md:text-3xl;
   color: var(--color-pizza-of-day-text);
   position: relative;
   display: inline-block;
 }
 
 .pizza-of-day-name::before {
-  content: '⭐';
+  content: "⭐";
   position: absolute;
   left: -30px;
   top: 50%;
@@ -654,7 +681,8 @@ html {
 }
 
 @keyframes starTwinkle {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: translateY(-50%) scale(1);
   }
@@ -665,7 +693,7 @@ html {
 }
 
 .pizza-of-day-description {
-  @apply text-base md:text-lg mb-4 leading-relaxed;
+  @apply mb-4 text-base leading-relaxed md:text-lg;
   color: var(--color-pizza-of-day-text);
   position: relative;
   padding-left: 15px;
@@ -673,7 +701,7 @@ html {
 }
 
 .pizza-of-day-price {
-  @apply font-pacifico text-xl md:text-2xl mt-4 inline-block px-6 py-2 rounded-full;
+  @apply font-pacifico mt-4 inline-block rounded-full px-6 py-2 text-xl md:text-2xl;
   background: var(--color-pizza-of-day-price);
   color: white;
   position: relative;
@@ -682,13 +710,18 @@ html {
 }
 
 .pizza-of-day-price::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   transition: all 0.6s ease;
 }
 
@@ -709,9 +742,9 @@ html {
 }
 
 .pizza-of-day-image {
-  @apply rounded-full object-cover w-full h-full;
+  @apply h-full w-full rounded-full object-cover;
   border: 5px solid white;
-  box-shadow: 
+  box-shadow:
     0 5px 15px var(--color-pizza-of-day-glow),
     0 0 0 5px var(--color-pizza-of-day-highlight);
   transition: all 0.5s ease;
@@ -721,13 +754,13 @@ html {
 
 .pizza-of-day-image-container:hover .pizza-of-day-image {
   transform: rotateY(5deg) rotateX(-5deg) scale(1.05);
-  box-shadow: 
+  box-shadow:
     0 10px 25px var(--color-pizza-of-day-glow),
     0 0 0 5px var(--color-pizza-of-day-highlight);
 }
 
 .pizza-of-day-badge {
-  @apply absolute -top-3 -right-3 font-pacifico text-sm px-4 py-1 rounded-full;
+  @apply font-pacifico absolute -top-3 -right-3 rounded-full px-4 py-1 text-sm;
   background: var(--color-pizza-of-day-badge);
   color: var(--color-pizza-of-day-badge-text);
   box-shadow: 0 3px 10px rgba(255, 107, 53, 0.4);
@@ -735,7 +768,8 @@ html {
 }
 
 @keyframes badgePulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -759,31 +793,38 @@ html {
   .pizza-of-day-content {
     @apply flex-col;
   }
-  
+
   .pizza-of-day-image-container {
     width: 200px;
     height: 200px;
   }
-  
+
   .pizza-of-day-badge {
-    @apply -top-2 -right-2 text-xs px-3;
+    @apply -top-2 -right-2 px-3 text-xs;
   }
 }
 
 /* App Component Styles */
 .app-container {
-  @apply min-h-screen flex flex-col;
+  @apply flex min-h-screen flex-col;
   background: var(--color-app-bg);
-  background-image: 
-    radial-gradient(circle at 10% 20%, var(--color-pizza-glow) 0%, transparent 20%),
-    radial-gradient(circle at 90% 80%, var(--color-pizza-glow) 0%, transparent 20%);
+  background-image:
+    radial-gradient(
+      circle at 10% 20%,
+      var(--color-pizza-glow) 0%,
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      var(--color-pizza-glow) 0%,
+      transparent 20%
+    );
   position: relative;
   overflow-x: hidden;
 }
 
-
 .app-content {
-  @apply flex-1 p-4 md:p-8 relative z-10 pt-20;
+  @apply relative z-10 flex-1 p-4 pt-20 md:p-8;
   animation: contentFadeIn 0.8s ease-out forwards;
 }
 
@@ -799,7 +840,7 @@ html {
 }
 
 .app-section {
-  @apply mb-12 relative;
+  @apply relative mb-12;
   animation: sectionSlideIn 0.6s ease-out forwards;
   animation-delay: calc(var(--section-index, 0) * 0.2s);
   opacity: 0;
@@ -814,7 +855,7 @@ html {
 }
 
 .app-section::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -20px;
   left: 50%;
@@ -831,11 +872,10 @@ html {
 
 /* Responsive adjustments for App */
 @media (max-width: 768px) {
-  
   .app-content {
     @apply p-4;
   }
-  
+
   .app-section {
     @apply mb-8;
   }
@@ -843,14 +883,14 @@ html {
 
 /* Cart Styles */
 .cart-container {
-  @apply bg-white/50 relative overflow-hidden rounded-3xl p-8 shadow-xl relative z-10 w-full max-w-xl mx-auto my-8;
+  @apply relative z-10 mx-auto my-8 w-full max-w-xl overflow-hidden rounded-3xl bg-white/50 p-8 shadow-xl;
   backdrop-filter: blur(10px);
   border: 1px solid var(--color-pizza-input-border);
   animation: cartSlideIn 0.8s ease-out forwards;
 }
 
 .cart-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -861,13 +901,13 @@ html {
 }
 
 .cart-title {
-  @apply font-pacifico text-3xl mb-6 text-center relative;
+  @apply font-pacifico relative mb-6 text-center text-3xl;
   color: var(--color-pizza-of-day-highlight);
   text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.8);
 }
 
 .cart-title::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -5px;
   left: 50%;
@@ -879,11 +919,11 @@ html {
 }
 
 .cart-items {
-  @apply space-y-4 mb-6;
+  @apply mb-6 space-y-4;
 }
 
 .cart-item {
-  @apply flex items-center justify-between p-4 rounded-xl bg-white/70 transition-all duration-300;
+  @apply flex items-center justify-between rounded-xl bg-white/70 p-4 transition-all duration-300;
   border: 1px solid var(--color-pizza-input-border);
   box-shadow: 0 2px 8px var(--color-pizza-shadow);
 }
@@ -899,7 +939,7 @@ html {
 }
 
 .cart-item .pizza-size {
-  @apply font-pacifico text-sm px-3 py-1 rounded-full;
+  @apply font-pacifico rounded-full px-3 py-1 text-sm;
   background: var(--color-pizza-sauce);
   color: white;
   box-shadow: 0 2px 4px var(--color-pizza-shadow);
@@ -916,7 +956,7 @@ html {
 }
 
 .cart-total {
-  @apply mt-8 p-4 rounded-xl bg-white/80 text-center;
+  @apply mt-8 rounded-xl bg-white/80 p-4 text-center;
   border: 2px solid var(--color-pizza-of-day-highlight);
 }
 
@@ -926,12 +966,12 @@ html {
 }
 
 .cart-total span {
-  @apply font-bold ml-2;
+  @apply ml-2 font-bold;
   color: var(--color-pizza-of-day-highlight);
 }
 
 .checkout-btn {
-  @apply w-full mt-6 py-3 px-6 rounded-xl font-pacifico text-xl text-white transition-all duration-300;
+  @apply font-pacifico mt-6 w-full rounded-xl px-6 py-3 text-xl text-white transition-all duration-300;
   background: var(--gradient-pizza-of-day);
   box-shadow: 0 4px 12px var(--color-pizza-of-day-glow);
 }
@@ -947,7 +987,7 @@ html {
 }
 
 .empty-cart {
-  @apply text-center py-12;
+  @apply py-12 text-center;
 }
 
 .empty-cart p {
@@ -970,19 +1010,19 @@ html {
   .cart-container {
     @apply p-4;
   }
-  
+
   .cart-title {
     @apply text-2xl;
   }
-  
+
   .cart-item {
     @apply p-3;
   }
-  
+
   .cart-item .pizza-name {
     @apply text-base;
   }
-  
+
   .cart-item .pizza-price {
     @apply text-base;
   }
@@ -990,7 +1030,7 @@ html {
 
 /* Header Styles */
 .header {
-  @apply fixed top-0 left-0 right-0 z-50;
+  @apply fixed top-0 right-0 left-0 z-50;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--color-pizza-input-border);
@@ -999,7 +1039,7 @@ html {
 }
 
 .header-content {
-  @apply max-w-7xl mx-auto px-4 py-3 flex items-center justify-between;
+  @apply mx-auto flex max-w-7xl items-center justify-between px-4 py-3;
 }
 
 .header-title {
@@ -1019,14 +1059,14 @@ html {
 }
 
 .cart-count {
-  @apply absolute -top-2 right-3 w-5 h-5 flex items-center justify-center text-sm font-bold bg-primary text-white rounded-full;
+  @apply bg-primary absolute -top-2 right-3 flex h-5 w-5 items-center justify-center rounded-full text-sm font-bold text-white;
   border: 2px solid white;
   animation: cartBounce 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 /* Update the app-content padding to account for fixed header */
 .app-content {
-  @apply pt-20 px-4 md:px-8; /* Increased padding-top to move content below header */
+  @apply px-4 pt-20 md:px-8; /* Increased padding-top to move content below header */
 }
 
 /* Update the order-container spacing */
@@ -1039,11 +1079,11 @@ html {
   .header-content {
     @apply py-4;
   }
-  
+
   .header-title {
     @apply text-3xl;
   }
-  
+
   .app-content {
     @apply pt-24; /* Larger padding for larger screens */
   }
@@ -1062,7 +1102,8 @@ html {
 }
 
 @keyframes cartBounce {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -1072,13 +1113,17 @@ html {
 
 /* Home Page Styles */
 .home-container {
-  @apply min-h-[calc(100vh-650px)] flex flex-col items-center justify-center gap-12 p-8;
-  background: radial-gradient(circle at center, var(--color-pizza-glow) 0%, transparent 50%);
+  @apply flex min-h-[calc(100vh-650px)] flex-col items-center justify-center gap-12 p-8;
+  background: radial-gradient(
+    circle at center,
+    var(--color-pizza-glow) 0%,
+    transparent 50%
+  );
   animation: homeFadeIn 1s ease-out forwards;
 }
 
 .home-hero {
-  @apply text-center space-y-7;
+  @apply space-y-7 text-center;
   animation: heroSlideUp 1s ease-out forwards;
 }
 
@@ -1091,8 +1136,8 @@ html {
 }
 
 .home-title::after {
-  content: '';
-  @apply absolute -bottom-2 left-0 w-full h-1;
+  content: "";
+  @apply absolute -bottom-2 left-0 h-1 w-full;
   background: var(--gradient-pizza);
   transform: scaleX(0);
   transform-origin: left;
@@ -1104,19 +1149,19 @@ html {
 }
 
 .home-subtitle {
-  @apply font-sans text-xl md:text-2xl text-pizza-description;
+  @apply text-pizza-description font-sans text-xl md:text-2xl;
   text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .home-actions {
-  @apply flex flex-col sm:flex-row gap-4 items-center;
+  @apply flex flex-col items-center gap-4 sm:flex-row;
   animation: actionsSlideUp 1s ease-out forwards;
   animation-delay: 0.3s;
   opacity: 0;
 }
 
 .home-action-btn {
-  @apply font-pacifico text-xl px-8 py-4 rounded-xl transition-all duration-300;
+  @apply font-pacifico rounded-xl px-8 py-4 text-xl transition-all duration-300;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -1126,7 +1171,7 @@ html {
 }
 
 .home-action-btn.secondary {
-  @apply bg-white text-primary border-2 border-primary;
+  @apply text-primary border-primary border-2 bg-white;
   box-shadow: 0 4px 12px var(--color-pizza-shadow);
 }
 
@@ -1177,45 +1222,58 @@ html {
   .home-container {
     @apply p-4;
   }
-  
+
   .home-title {
     @apply text-4xl;
   }
-  
+
   .home-subtitle {
     @apply text-lg;
   }
-  
+
   .home-action-btn {
-    @apply text-lg px-6 py-3;
+    @apply px-6 py-3 text-lg;
   }
 }
 
 /* Past Orders Styles */
 .past-orders-container {
-  @apply w-full max-w-4xl mx-auto p-6 ;
+  @apply mx-auto w-full max-w-4xl p-6;
   animation: pastOrdersFadeIn 1s ease-out forwards;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(218, 47, 4, 0.1);
 }
 
 .past-orders-title {
-  @apply font-pacifico text-3xl md:text-4xl text-center mb-8;
+  @apply font-pacifico mb-8 text-center text-3xl md:text-4xl;
   color: var(--color-primary);
   text-shadow: 2px 2px 0 var(--color-pizza-name-glow);
   position: relative;
+  animation: titleGlow 2s infinite alternate;
 }
 
-.past-orders-title::after {
-  content: '';
-  @apply absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1;
-  background: var(--gradient-pizza);
-  border-radius: 2px;
+@keyframes titleGlow {
+  from {
+    text-shadow: 2px 2px 0 var(--color-pizza-name-glow);
+  }
+  to {
+    text-shadow: 4px 4px 8px var(--color-pizza-name-glow);
+  }
 }
 
 .past-orders-table-container {
   @apply overflow-x-auto rounded-2xl shadow-lg;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(5px);
   border: 1px solid var(--color-pizza-input-border);
+  transform: perspective(1000px) rotateX(0deg);
+  transition: transform 0.3s ease;
+}
+
+.past-orders-table-container:hover {
+  transform: perspective(1000px) rotateX(2deg);
 }
 
 .past-orders-table {
@@ -1224,16 +1282,18 @@ html {
 
 .past-orders-header {
   @apply bg-primary/40;
+  backdrop-filter: blur(5px);
 }
 
 .past-orders-th {
-  @apply font-pacifico text-lg p-4 text-center;
+  @apply font-pacifico p-4 text-center text-lg;
   color: var(--color-primary);
   border-bottom: 2px solid var(--color-pizza-input-border);
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .past-orders-row {
-  @apply transition-all duration-300 text-center;
+  @apply text-center transition-all duration-300;
   border-bottom: 1px solid var(--color-pizza-input-border);
 }
 
@@ -1245,33 +1305,45 @@ html {
   @apply bg-primary/10;
 }
 
-.past-orders-row:last-child {
-  border-bottom: none;
+.past-orders-row:hover {
+  @apply bg-primary/30;
 }
 
-.past-orders-td {
-  @apply p-4 font-sans text-center;
-  color: var(--color-pizza-text);
-}
-
-.past-orders-pagination {
-  @apply flex items-center justify-center gap-4 mt-8;
-}
-
-.past-orders-btn {
-  @apply font-pacifico px-6 py-2 rounded-xl transition-all duration-300;
-  background: var(--color-primary);
-  color: white;
+.past-orders-btn-tb {
+  @apply font-pacifico text-primary border-primary rounded-xl border-2 bg-white px-4 py-2 transition-all duration-300;
   box-shadow: 0 4px 12px var(--color-pizza-shadow);
 }
 
+.past-orders-td {
+  @apply p-4 text-center font-sans;
+  color: var(--color-pizza-text);
+  transition: all 0.3s ease;
+}
+
+.past-orders-td button {
+  @apply font-pacifico text-primary hover:text-primary/80 transition-colors duration-300;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.past-orders-pagination {
+  @apply mt-8 flex items-center justify-center gap-4;
+}
+
+.past-orders-btn {
+  @apply font-pacifico rounded-xl px-6 py-2 transition-all duration-300;
+  background: var(--color-primary);
+  color: white;
+  box-shadow: 0 4px 12px var(--color-pizza-shadow);
+  transform: perspective(1000px) rotateX(0deg);
+}
+
 .past-orders-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
+  transform: perspective(1000px) rotateX(5deg) translateY(-2px);
   box-shadow: 0 6px 16px var(--color-pizza-shadow);
 }
 
 .past-orders-btn:disabled {
-  @apply opacity-50 cursor-not-allowed;
+  @apply cursor-not-allowed opacity-50;
   color: var(--color-primary);
   background: var(--color-muted);
 }
@@ -1279,6 +1351,7 @@ html {
 .past-orders-page {
   @apply font-pacifico text-lg;
   color: var(--color-primary);
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 @keyframes pastOrdersFadeIn {
@@ -1292,28 +1365,118 @@ html {
   }
 }
 
+/* Order Details Modal Styles */
+.modal-container {
+  @apply fixed inset-0 z-50 flex items-center justify-center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  @apply mx-4 w-full max-w-4xl rounded-2xl bg-white p-8;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--color-pizza-input-border);
+  box-shadow: 0 8px 32px rgba(218, 47, 4, 0.2);
+  animation: modalSlideIn 0.3s ease-out forwards;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-title {
+  @apply font-pacifico mb-6 text-center text-2xl;
+  color: var(--color-primary);
+  text-shadow: 2px 2px 0 var(--color-pizza-name-glow);
+}
+
+.modal-table {
+  @apply mb-6 w-full border-collapse;
+}
+
+.modal-table th {
+  @apply font-pacifico p-4 text-center text-lg;
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-pizza-input-border);
+  background: var(--color-primary) / 10;
+}
+
+.modal-table td {
+  @apply p-4 text-center;
+  border-bottom: 1px solid var(--color-pizza-input-border);
+}
+
+.modal-table tr:nth-child(odd) {
+  @apply bg-white/50;
+}
+
+.modal-table tr:nth-child(even) {
+  @apply bg-primary/10;
+}
+
+.modal-table img {
+  @apply h-16 w-16 rounded-full object-cover;
+  border: 2px solid var(--color-pizza-input-border);
+  transition: all 0.3s ease;
+}
+
+.modal-table img:hover {
+  transform: scale(1.1) rotate(5deg);
+  border-color: var(--color-primary);
+}
+
+.modal-close-btn {
+  @apply font-pacifico rounded-xl px-6 py-2 transition-all duration-300;
+  background: var(--color-primary);
+  color: white;
+  box-shadow: 0 4px 12px var(--color-pizza-shadow);
+}
+
+.modal-close-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--color-pizza-shadow);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .past-orders-container {
     @apply p-4;
   }
-  
+
   .past-orders-title {
-    @apply text-2xl mb-6;
+    @apply mb-6 text-2xl;
   }
-  
+
   .past-orders-th {
-    @apply text-base p-3;
+    @apply p-3 text-base;
   }
-  
+
   .past-orders-td {
     @apply p-3 text-sm;
   }
-  
+
   .past-orders-btn {
     @apply px-4 py-1.5 text-sm;
   }
+
+  .modal-content {
+    @apply mx-2 p-4;
+  }
+
+  .modal-table th,
+  .modal-table td {
+    @apply p-2 text-sm;
+  }
+
+  .modal-table img {
+    @apply h-12 w-12;
+  }
 }
-
-
-

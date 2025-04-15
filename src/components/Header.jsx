@@ -9,7 +9,7 @@ function Header() {
     <nav className="header">
       <div className="header-content">
         <Link to="/">
-          <h1 className="header-title">Pizza Zero</h1>
+          <h1 className="header-title">SliceMeUp Pizza</h1>
         </Link>
         <div className="cart-icon">
           🛒

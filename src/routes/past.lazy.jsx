@@ -2,7 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import getPastOrders from "../api/getPastOrders";
-import Loading from "../components/Loading";
+import getPastOrder from "../api/getPastOrder";
+import Loading from "../components/loading";
+import OrderDetailsModal from "../components/OrderDetailsModal";
 
 export const Route = createLazyFileRoute("/past")({
   component: PastOrderRoute,
@@ -10,11 +12,20 @@ export const Route = createLazyFileRoute("/past")({
 
 function PastOrderRoute() {
   const [page, setPage] = useState(1);
+  const [focusedOrder, setFocusedOrder] = useState(null);
   const { isLoading, data } = useQuery({
     queryKey: ["past-orders", page],
     queryFn: () => getPastOrders(page),
     staleTime: 1000 * 30,
   });
+
+  const { isLoading: isLoadingPastOrder, data: pastOrderData } = useQuery({
+    queryKey: ["past-order", focusedOrder],
+    queryFn: () => getPastOrder(focusedOrder),
+    staleTime: 1000 * 24 * 60 * 60,
+    enabled: !!focusedOrder,
+  });
+
   if (isLoading) {
     return (
       <div className="past-orders-container">
@@ -38,7 +49,15 @@ function PastOrderRoute() {
           <tbody>
             {data.map((order) => (
               <tr key={order.order_id} className="past-orders-row">
-                <td className="past-orders-td">{order.order_id}</td>
+                <td className="past-orders-td">
+                  <button
+                  className="past-orders-btn-tb"
+                    type="button"
+                    onClick={() => setFocusedOrder(order.order_id)}
+                  >
+                    {order.order_id}
+                  </button>
+                </td>
                 <td className="past-orders-td">{order.date}</td>
                 <td className="past-orders-td">{order.time}</td>
               </tr>
@@ -65,6 +84,14 @@ function PastOrderRoute() {
           Next
         </button>
       </div>
+      {focusedOrder ? (
+        <OrderDetailsModal
+          orderId={focusedOrder}
+          orderData={pastOrderData}
+          isLoading={isLoadingPastOrder}
+          onClose={() => setFocusedOrder(null)}
+        />
+      ) : null}
     </div>
   );
 }
