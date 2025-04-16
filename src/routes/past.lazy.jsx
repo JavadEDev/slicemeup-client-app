@@ -5,10 +5,19 @@ import getPastOrders from "../api/getPastOrders";
 import getPastOrder from "../api/getPastOrder";
 import Loading from "../components/loading";
 import OrderDetailsModal from "../components/OrderDetailsModal";
+import ErrorBoundary from "../ErrorBoundary";
 
 export const Route = createLazyFileRoute("/past")({
-  component: PastOrderRoute,
+  component: ErrorBoundaryWrappedPastOrderRoute,
 });
+
+function ErrorBoundaryWrappedPastOrderRoute(props) {
+  return (
+    <ErrorBoundary>
+      <PastOrderRoute {...props} />
+    </ErrorBoundary>
+  );
+}
 
 function PastOrderRoute() {
   const [page, setPage] = useState(1);
@@ -51,7 +60,7 @@ function PastOrderRoute() {
               <tr key={order.order_id} className="past-orders-row">
                 <td className="past-orders-td">
                   <button
-                  className="past-orders-btn-tb"
+                    className="past-orders-btn-tb"
                     type="button"
                     onClick={() => setFocusedOrder(order.order_id)}
                   >

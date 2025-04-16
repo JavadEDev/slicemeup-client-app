@@ -1312,6 +1312,11 @@ html {
 .past-orders-btn-tb {
   @apply font-pacifico text-primary border-primary rounded-xl border-2 bg-white px-4 py-2 transition-all duration-300;
   box-shadow: 0 4px 12px var(--color-pizza-shadow);
+  transform: perspective(1000px) rotateX(0deg);
+}
+
+.past-orders-btn-tb:hover {
+  transform: perspective(1000px) rotateX(5deg) translateY(-4px);
 }
 
 .past-orders-td {
@@ -1343,7 +1348,7 @@ html {
 }
 
 .past-orders-btn:disabled {
-  @apply cursor-not-allowed opacity-50;
+  @apply cursor-not-allowed opacity-70;
   color: var(--color-primary);
   background: var(--color-muted);
 }
@@ -1445,6 +1450,84 @@ html {
   box-shadow: 0 6px 16px var(--color-pizza-shadow);
 }
 
+/* Error Boundary Styles */
+.error-container {
+  @apply inset-0 flex items-center justify-center rounded-xl p-4;
+  background: linear-gradient(
+    135deg,
+    var(--color-pizza-glow) 0%,
+    transparent 100%
+  );
+  border: 2px solid var(--color-accent);
+  animation: errorFadeIn 0.5s ease-out forwards;
+}
+
+.error-content {
+  @apply w-full max-w-lg rounded-3xl bg-white/90 p-8 text-center;
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--color-pizza-input-border);
+  box-shadow: 0 8px 32px var(--color-pizza-shadow);
+  animation: errorContentSlideUp 0.5s ease-out forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.error-pizza {
+  @apply mb-6 text-6xl;
+  animation: errorPizzaSpin 4s linear infinite;
+}
+
+.error-title {
+  @apply font-pacifico mb-4 text-3xl;
+  color: var(--color-primary);
+  text-shadow: 2px 2px 0 var(--color-pizza-name-glow);
+}
+
+.error-message {
+  @apply mb-8 text-lg;
+  color: var(--color-pizza-text);
+}
+
+.error-button {
+  @apply font-pacifico inline-block rounded-xl px-6 py-3 transition-all duration-300;
+  background: var(--gradient-pizza);
+  color: white;
+  box-shadow: 0 4px 12px var(--color-pizza-shadow);
+}
+
+.error-button:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 16px var(--color-pizza-shadow);
+}
+
+@keyframes errorFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+}
+
+@keyframes errorContentSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes errorPizzaSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .past-orders-container {
@@ -1478,5 +1561,21 @@ html {
 
   .modal-table img {
     @apply h-12 w-12;
+  }
+
+  .error-content {
+    @apply p-6;
+  }
+
+  .error-title {
+    @apply text-2xl;
+  }
+
+  .error-message {
+    @apply text-base;
+  }
+
+  .error-button {
+    @apply px-4 py-2 text-lg;
   }
 }
