@@ -5,7 +5,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import PizzaOfTheDay from "../components/pizzaOfTheDay";
 import Header from "../components/Header";
 import { CartContext } from "../components/contexts";
-import Loading from "../components/Loading";
+import Loading from "../components/loading";
 
 export const Root = () => {
   const cartHook = useState([]);

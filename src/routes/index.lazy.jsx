@@ -18,6 +18,9 @@ function Index() {
         <Link to="/past" className="home-action-btn secondary">
           Past Orders
         </Link>
+        <Link to="/contact" className="home-action-btn contact">
+          Contact
+        </Link>
       </div>
     </div>
   );
