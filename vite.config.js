@@ -22,4 +22,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  test: {
+    environment: "happy-dom",
+  },
 });
