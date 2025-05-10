@@ -1,0 +1,22 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`snapshot with nothing in the cart 1`] = `
+<DocumentFragment>
+  <div
+    class="cart-container"
+  >
+    <h2
+      class="cart-title"
+    >
+      Your Pizza Cart 🛒
+    </h2>
+    <div
+      class="empty-cart"
+    >
+      <p>
+        Your cart is empty! Time to add some delicious pizzas! 🍕
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
