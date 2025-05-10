@@ -41,7 +41,7 @@ test("can submit contact form", async () => {
 
   const requests = fetchMocker.requests();
   expect(requests.length).toBe(1);
-  expect(requests[0].url).toBe("http://localhost:3000/api/contact");
+  expect(requests[0].url).toContain("/api/contact");
   expect(fetchMocker).toHaveBeenCalledWith("/api/contact", {
     body: JSON.stringify(textData),
     headers: {

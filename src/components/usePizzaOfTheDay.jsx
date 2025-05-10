@@ -1,11 +1,9 @@
 import { useState, useEffect, useDebugValue } from "react";
-
+import Loading from "./loading";
 export const usePizzaOfTheDay = () => {
   const [pizzaOfTheDay, setPizzaOfTheDay] = useState(null);
   useDebugValue(
-    pizzaOfTheDay
-      ? `${pizzaOfTheDay.id} - ${pizzaOfTheDay.name}`
-      : "Loading...",
+    pizzaOfTheDay ? `${pizzaOfTheDay.id} - ${pizzaOfTheDay.name}` : <Loading />,
   );
 
   useEffect(() => {
