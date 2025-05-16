@@ -13,7 +13,9 @@ function Header() {
         </Link>
         <div className="cart-icon">
           🛒
-          <span className="cart-count">{cart.length}</span>
+          <span data-testid="cart-number" className="cart-count">
+            {cart.length}
+          </span>
         </div>
       </div>
     </nav>
