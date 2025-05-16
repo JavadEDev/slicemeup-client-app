@@ -22,10 +22,10 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  test: {
-    environment: "happy-dom",
-    coverage: {
-      reporter: ["text", "json", "html"],
-    },
-  },
+  // test: {
+  //   environment: "happy-dom",
+  //   coverage: {
+  //     reporter: ["text", "json", "html"],
+  //   },
+  // },
 });
