@@ -46,6 +46,7 @@ function PastOrderRoute() {
   return (
     <div className="past-orders-container">
       <h2 className="past-orders-title">Your Pizza History 🍕</h2>
+      <title>Your Pizza History 🍕</title>
       <div className="past-orders-table-container">
         <table className="past-orders-table">
           <thead>

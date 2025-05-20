@@ -44,10 +44,10 @@ function Order() {
     setPizzaTypes(pizzasJson);
     setLoading(false);
   }
-  const handleSubmit = (e) => {
-    e.preventDefault();
+
+  function addToCart() {
     setCart([...cart, { pizza: selectedPizza, size: pizzaSize, price }]);
-  };
+  }
 
   useEffect(() => {
     fetchPizzaTypes();
@@ -58,7 +58,8 @@ function Order() {
       <div className="order-container">
         <div className="order-form">
           <h2 className="h2Title title">Create Order</h2>
-          <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
+          <title>Create Order</title>
+          <form className="flex flex-col gap-8" action={addToCart}>
             <div className="form-section">
               <label htmlFor="pizza-type" className="form-label">
                 Choose Your Pizza

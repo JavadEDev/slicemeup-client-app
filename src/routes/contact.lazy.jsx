@@ -2,6 +2,7 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { useMutation } from "@tanstack/react-query";
 import postContact from "../api/postContact";
 import ErrorBoundary from "../ErrorBoundary";
+import ContactInput from "../components/ContactInput";
 
 export const Route = createLazyFileRoute("/contact")({
   component: ErrorBoundaryWrappedContactRoute,
@@ -17,9 +18,7 @@ function ErrorBoundaryWrappedContactRoute(props) {
 
 function ContactRoute() {
   const mutation = useMutation({
-    mutationFn: function (e) {
-      e.preventDefault();
-      const formData = new FormData(e.target);
+    mutationFn: function (formData) {
       return postContact(
         formData.get("name"),
         formData.get("email"),
@@ -31,6 +30,7 @@ function ContactRoute() {
   return (
     <div className="contact-container">
       <h2 className="contact-title">Get in Touch 📞</h2>
+      <title>Get in Touch 📞</title>
       <p className="contact-subtitle">We'd love to hear from you!</p>
 
       {mutation.isSuccess ? (
@@ -42,12 +42,12 @@ function ContactRoute() {
           </p>
         </div>
       ) : (
-        <form onSubmit={mutation.mutate} className="contact-form">
+        <form action={mutation.mutate} className="contact-form">
           <div className="form-group">
             <label htmlFor="name" className="contact-label">
               Name
             </label>
-            <input
+            <ContactInput
               type="text"
               id="name"
               name="name"
@@ -61,7 +61,7 @@ function ContactRoute() {
             <label htmlFor="email" className="contact-label">
               Email
             </label>
-            <input
+            <ContactInput
               type="email"
               id="email"
               name="email"
