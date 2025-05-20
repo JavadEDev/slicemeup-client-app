@@ -29,8 +29,9 @@ function ContactRoute() {
 
   return (
     <div className="contact-container">
-      <h2 className="contact-title">Get in Touch 📞</h2>
-      <title>Get in Touch 📞</title>
+      <h2 className="contact-title">
+        <title>Get in Touch 📞</title>
+      </h2>
       <p className="contact-subtitle">We'd love to hear from you!</p>
 
       {mutation.isSuccess ? (

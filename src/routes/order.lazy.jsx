@@ -57,8 +57,9 @@ function Order() {
     <>
       <div className="order-container">
         <div className="order-form">
-          <h2 className="h2Title title">Create Order</h2>
-          <title>Create Order</title>
+          <h2 className="h2Title title">
+            <title>Create Order</title>
+          </h2>
           <form className="flex flex-col gap-8" action={addToCart}>
             <div className="form-section">
               <label htmlFor="pizza-type" className="form-label">
