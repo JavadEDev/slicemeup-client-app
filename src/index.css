@@ -1,5 +1,6 @@
 /* Base imports */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Pacifico&display=swap");
 @import "tailwindcss";
 
 /* Font faces */
@@ -11,50 +12,6 @@
 /* Hide radio inputs */
 input[type="radio"] {
   display: none;
-}
-
-/* Theme variables */
-:root {
-  /* Colors */
-  --color-primary: #da2f04;
-  --color-secondary: #33670a;
-  --color-background: #fffaee;
-  --color-border: #cccccc;
-  --color-accent: #fbbf24;
-  --color-muted: #f3f4f6;
-
-  /* Pizza-specific colors */
-  --color-pizza-crust: #ffd700;
-  --color-pizza-sauce: #ff4136;
-  --color-pizza-text: #2d3748;
-  --color-pizza-description: #4a5568;
-  --color-pizza-shadow: rgba(218, 47, 4, 0.15);
-  --color-pizza-glow: rgba(255, 215, 0, 0.6);
-  --color-pizza-name-glow: rgba(218, 47, 4, 0.2);
-
-  /* Fonts */
-  --font-display: "Oswald", sans-serif;
-  --font-pacifico: "Pacifico", cursive;
-  --font-sans: "Inter", ui-sans-serif, system-ui;
-  --font-base: Arial, sans-serif;
-
-  /* Gradients */
-  --gradient-primary: linear-gradient(
-    to right,
-    var(--color-primary),
-    var(--color-secondary)
-  );
-  --gradient-pizza: linear-gradient(
-    to bottom right,
-    #f59e0b,
-    #ef4444,
-    var(--color-primary)
-  );
-  --gradient-overlay: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.5),
-    rgba(0, 0, 0, 0.2)
-  );
 }
 
 @theme {
@@ -129,309 +86,286 @@ input[type="radio"] {
   --gradient-app-content: linear-gradient(to bottom, #ffffff, #fff9f0);
 }
 
-@layer components {
-  .title {
-    @apply font-pacifico text-primary relative text-center text-[40px] font-normal;
-    text-shadow: 2px 2px 4px var(--color-pizza-name-glow);
-    transition: all 0.3s ease;
-  }
+.loading-pizza {
+  @apply relative mx-auto h-32 w-32;
+}
 
-  .title::after {
-    content: "";
-    @apply bg-primary absolute bottom-0 left-0 h-0.5 w-0;
-    transition: width 0.3s ease;
-  }
+.loading-pizza::before,
+.loading-pizza::after {
+  content: "";
+  @apply absolute inset-0 rounded-full;
+  background: var(--color-primary);
+  animation: pizza-spin 2s infinite linear;
+}
 
-  .title:hover::after {
-    @apply w-full;
-  }
+.loading-pizza::before {
+  @apply opacity-20;
+  animation-duration: 1.5s;
+}
 
-  .title:hover {
-    transform: translateY(-2px);
-    color: var(--color-pizza-sauce);
-  }
+.loading-pizza::after {
+  @apply opacity-40;
+  animation-duration: 1s;
+}
 
-  .loading-pizza {
-    @apply relative mx-auto h-32 w-32;
+@keyframes pizza-spin {
+  0% {
+    transform: rotate(0deg) scale(1);
   }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
 
-  .loading-pizza::before,
-  .loading-pizza::after {
-    content: "";
-    @apply absolute inset-0 rounded-full;
-    background: var(--color-primary);
-    animation: pizza-spin 2s infinite linear;
-  }
+.loading-text {
+  @apply font-pacifico text-accent mt-4 text-center text-xl;
+  animation: loading-pulse 1.5s infinite;
+}
 
-  .loading-pizza::before {
-    @apply opacity-20;
-    animation-duration: 1.5s;
-  }
-
-  .loading-pizza::after {
-    @apply opacity-40;
-    animation-duration: 1s;
-  }
-
-  @keyframes pizza-spin {
-    0% {
-      transform: rotate(0deg) scale(1);
-    }
-    50% {
-      transform: rotate(180deg) scale(1.1);
-    }
-    100% {
-      transform: rotate(360deg) scale(1);
-    }
-  }
-
-  .loading-text {
-    @apply font-pacifico text-accent mt-4 text-center text-xl;
-    animation: loading-pulse 1.5s infinite;
-  }
-
-  @keyframes loading-pulse {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
-  }
-
-  .btn {
-    @apply mx-auto my-4 block transition-all duration-200 ease-in-out hover:scale-105 active:scale-95;
-    border: 1px solid var(--color-primary);
-    width: fit-content;
-    background-color: transparent;
-    color: var(--color-primary);
-    font-family: var(--font-pacifico);
-    font-size: 20px;
-    padding: 5px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .btn:hover {
-    background-color: var(--color-primary);
-    color: white;
-    box-shadow: 0 4px 8px rgba(218, 47, 4, 0.2);
-  }
-
-  .btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 4px rgba(218, 47, 4, 0.1);
-  }
-  .pizzaSize {
-    @apply border-pizza-sauce relative flex h-[80px] w-[80px] cursor-pointer items-center justify-center overflow-hidden rounded-full border-4 bg-white text-gray-700 transition-all duration-300 ease-in-out;
-    position: relative;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Pizza slice pattern background */
-  .pizzaSize::before {
-    content: "";
-    @apply absolute inset-0;
-    background-image: repeating-conic-gradient(
-      from 0deg,
-      transparent 0deg 30deg,
-      rgba(255, 65, 54, 0.1) 30deg 60deg
-    );
-    opacity: 0.5;
-    transition: all 0.3s ease;
-  }
-
-  /* Hover effects */
-  .pizzaSize:hover {
-    @apply border-pizza-crust;
-    transform: translateY(-5px) rotate(5deg);
-    box-shadow: 0 8px 15px var(--color-pizza-glow);
-    animation: pizzaBounce 0.5s ease infinite;
-  }
-
-  .pizzaSize:hover::before {
-    transform: rotate(180deg);
-    opacity: 0.8;
-  }
-
-  /* Active state */
-  .pizzaSize:active {
-    transform: scale(0.9) rotate(-5deg);
-    box-shadow: 0 2px 4px var(--color-pizza-glow);
-  }
-
-  /* Selected state */
-  .peer:checked + .pizzaSize {
-    @apply bg-pizza-sauce border-pizza-crust text-white;
-    animation: selectedPizzaNew 0.6s ease-out forwards;
-    box-shadow: 0 0 25px var(--color-pizza-glow);
-  }
-
-  .peer:checked + .pizzaSize::before {
-    opacity: 0.2;
-    animation: rotatePizza 3s linear infinite;
-  }
-
-  /* New animations */
-  @keyframes pizzaBounce {
-    0%,
-    100% {
-      transform: translateY(-5px) rotate(5deg);
-    }
-    50% {
-      transform: translateY(-8px) rotate(5deg);
-    }
-  }
-
-  @keyframes selectedPizzaNew {
-    0% {
-      transform: scale(1) rotate(0deg);
-    }
-    25% {
-      transform: scale(1.3) rotate(15deg);
-    }
-    50% {
-      transform: scale(0.9) rotate(-10deg);
-    }
-    75% {
-      transform: scale(1.1) rotate(5deg);
-    }
-    100% {
-      transform: scale(1.05) rotate(0deg);
-    }
-  }
-
-  @keyframes rotatePizza {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  /* Gradient Patterns */
-  .bg-gradient-primary {
-    @apply from-primary to-secondary bg-gradient-to-r;
-  }
-
-  .bg-gradient-pizza {
-    @apply to-primary bg-gradient-to-br from-amber-500 via-red-500;
-  }
-
-  .bg-gradient-menu {
-    @apply bg-gradient-to-t from-gray-100 to-white;
-  }
-
-  .bg-gradient-hero {
-    @apply from-primary/90 to-secondary/90 bg-gradient-to-b;
-  }
-
-  .bg-gradient-card {
-    @apply bg-gradient-to-tr from-white via-gray-50 to-gray-100;
-  }
-
-  .pizza-name {
-    @apply font-pacifico relative mb-2 text-2xl;
-    color: var(--color-pizza-text);
-    text-shadow: 2px 2px 4px var(--color-pizza-name-glow);
-    transition: all 0.3s ease;
-  }
-
-  .pizza-name::after {
-    content: "";
-    @apply bg-primary absolute bottom-0 left-0 h-0.5 w-0;
-    transition: width 0.3s ease;
-  }
-
-  .pizza-name:hover::after {
-    @apply w-full;
-  }
-
-  .pizza-name:hover {
-    transform: translateY(-2px);
-    color: var(--color-primary);
-  }
-
-  .pizza-description {
-    @apply mx-auto mb-4 max-w-xs text-center text-sm leading-relaxed;
-    color: var(--color-pizza-description);
-    transition: all 0.3s ease;
-  }
-
-  .pizza-description:hover {
-    transform: scale(1.02);
-  }
-
-  .pizza-image {
-    @apply rounded-2xl shadow-lg transition-all duration-300 ease-in-out;
-    width: 280px;
-    height: 280px;
-    object-fit: cover;
-    transform: rotate(-2deg);
-    border: 4px solid white;
-    box-shadow:
-      0 4px 6px var(--color-pizza-name-glow),
-      0 0 0 4px var(--color-pizza-crust);
-  }
-
-  .pizza-image:hover {
-    transform: rotate(2deg) scale(1.05);
-    box-shadow:
-      0 8px 12px var(--color-pizza-name-glow),
-      0 0 0 4px var(--color-pizza-sauce);
-  }
-
-  .pizza-price {
-    @apply font-pacifico mt-4 rounded-full px-6 py-2 text-xl;
-    background: var(--color-pizza-price-bg);
-    color: var(--color-pizza-price-text);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .pizza-price::before {
-    content: "";
-    @apply absolute inset-0 opacity-0;
-    background: linear-gradient(
-      45deg,
-      transparent 25%,
-      rgba(255, 255, 255, 0.4) 50%,
-      transparent 75%
-    );
-    transform: translateX(-100%) rotate(45deg);
-    transition: all 0.6s ease;
-  }
-
-  .pizza-price:hover::before {
-    transform: translateX(100%) rotate(45deg);
+@keyframes loading-pulse {
+  0%,
+  100% {
     opacity: 1;
   }
-
-  .pizza-price:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px var(--color-pizza-name-glow);
+  50% {
+    opacity: 0.5;
   }
+}
 
-  /* Add a container animation when the component mounts */
-  @keyframes pizzaCardEnter {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+.btn {
+  @apply mx-auto my-4 block transition-all duration-200 ease-in-out hover:scale-105 active:scale-95;
+  border: 1px solid var(--color-primary);
+  width: fit-content;
+  background-color: transparent;
+  color: var(--color-primary);
+  font-family: var(--font-pacifico);
+  font-size: 20px;
+  padding: 5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  /* Add this class to your Pizza component's root div */
-  .flex.flex-col {
-    animation: pizzaCardEnter 0.5s ease-out forwards;
+.btn:hover {
+  background-color: var(--color-primary);
+  color: white;
+  box-shadow: 0 4px 8px rgba(218, 47, 4, 0.2);
+}
+
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 4px rgba(218, 47, 4, 0.1);
+}
+.pizzaSize {
+  @apply border-pizza-sauce relative flex h-[80px] w-[80px] cursor-pointer items-center justify-center overflow-hidden rounded-full border-4 bg-white text-gray-700 transition-all duration-300 ease-in-out;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Pizza slice pattern background */
+.pizzaSize::before {
+  content: "";
+  @apply absolute inset-0;
+  background-image: repeating-conic-gradient(
+    from 0deg,
+    transparent 0deg 30deg,
+    rgba(255, 65, 54, 0.1) 30deg 60deg
+  );
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+/* Hover effects */
+.pizzaSize:hover {
+  @apply border-pizza-crust;
+  transform: translateY(-5px) rotate(5deg);
+  box-shadow: 0 8px 15px var(--color-pizza-glow);
+  animation: pizzaBounce 0.5s ease infinite;
+}
+
+.pizzaSize:hover::before {
+  transform: rotate(180deg);
+  opacity: 0.8;
+}
+
+/* Active state */
+.pizzaSize:active {
+  transform: scale(0.9) rotate(-5deg);
+  box-shadow: 0 2px 4px var(--color-pizza-glow);
+}
+
+/* Selected state */
+.peer:checked + .pizzaSize {
+  @apply bg-pizza-sauce border-pizza-crust text-white;
+  animation: selectedPizzaNew 0.6s ease-out forwards;
+  box-shadow: 0 0 25px var(--color-pizza-glow);
+}
+
+.peer:checked + .pizzaSize::before {
+  opacity: 0.2;
+  animation: rotatePizza 3s linear infinite;
+}
+
+/* New animations */
+@keyframes pizzaBounce {
+  0%,
+  100% {
+    transform: translateY(-5px) rotate(5deg);
   }
+  50% {
+    transform: translateY(-8px) rotate(5deg);
+  }
+}
+
+@keyframes selectedPizzaNew {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.3) rotate(15deg);
+  }
+  50% {
+    transform: scale(0.9) rotate(-10deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(5deg);
+  }
+  100% {
+    transform: scale(1.05) rotate(0deg);
+  }
+}
+
+@keyframes rotatePizza {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Gradient Patterns */
+.bg-gradient-primary {
+  @apply from-primary to-secondary bg-gradient-to-r;
+}
+
+.bg-gradient-pizza {
+  @apply to-primary bg-gradient-to-br from-amber-500 via-red-500;
+}
+
+.bg-gradient-menu {
+  @apply bg-gradient-to-t from-gray-100 to-white;
+}
+
+.bg-gradient-hero {
+  @apply from-primary/90 to-secondary/90 bg-gradient-to-b;
+}
+
+.bg-gradient-card {
+  @apply bg-gradient-to-tr from-white via-gray-50 to-gray-100;
+}
+
+.pizza-name {
+  @apply font-pacifico relative mb-2 text-2xl;
+  color: var(--color-pizza-text);
+  text-shadow: 2px 2px 4px var(--color-pizza-name-glow);
+  transition: all 0.3s ease;
+}
+
+.pizza-name::after {
+  content: "";
+  @apply bg-primary absolute bottom-0 left-0 h-0.5 w-0;
+  transition: width 0.3s ease;
+}
+
+.pizza-name:hover::after {
+  @apply w-full;
+}
+
+.pizza-name:hover {
+  transform: translateY(-2px);
+  color: var(--color-primary);
+}
+
+.pizza-description {
+  @apply mx-auto mb-4 max-w-xs text-center text-sm leading-relaxed;
+  color: var(--color-pizza-description);
+  transition: all 0.3s ease;
+}
+
+.pizza-description:hover {
+  transform: scale(1.02);
+}
+
+.pizza-image {
+  @apply rounded-2xl shadow-lg transition-all duration-300 ease-in-out;
+  width: 280px;
+  height: 280px;
+  object-fit: cover;
+  transform: rotate(-2deg);
+  border: 4px solid white;
+  box-shadow:
+    0 4px 6px var(--color-pizza-name-glow),
+    0 0 0 4px var(--color-pizza-crust);
+}
+
+.pizza-image:hover {
+  transform: rotate(2deg) scale(1.05);
+  box-shadow:
+    0 8px 12px var(--color-pizza-name-glow),
+    0 0 0 4px var(--color-pizza-sauce);
+}
+
+.pizza-price {
+  @apply font-pacifico mt-4 rounded-full px-6 py-2 text-xl;
+  background: var(--color-pizza-price-bg);
+  color: var(--color-pizza-price-text);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pizza-price::before {
+  content: "";
+  @apply absolute inset-0 opacity-0;
+  background: linear-gradient(
+    45deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 75%
+  );
+  transform: translateX(-100%) rotate(45deg);
+  transition: all 0.6s ease;
+}
+
+.pizza-price:hover::before {
+  transform: translateX(100%) rotate(45deg);
+  opacity: 1;
+}
+
+.pizza-price:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--color-pizza-name-glow);
+}
+
+/* Add a container animation when the component mounts */
+@keyframes pizzaCardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add this class to your Pizza component's root div */
+.flex.flex-col {
+  animation: pizzaCardEnter 0.5s ease-out forwards;
 }
 
 /* Main container styles */
@@ -542,21 +476,6 @@ input[type="radio"] {
 /* Loading styles enhancement */
 .loading-container {
   @apply flex min-h-[400px] flex-col items-center justify-center;
-}
-
-.loading-pizza {
-  @apply relative mx-auto h-32 w-32;
-  animation: loadingBounce 1.5s ease-in-out infinite;
-}
-
-@keyframes loadingBounce {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(180deg);
-  }
 }
 
 /* Button enhancement */

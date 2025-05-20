@@ -42,7 +42,7 @@ const OrderDetailsModal = ({ orderId, orderData, isLoading, onClose }) => {
             </table>
           </div>
         ) : (
-          <Loading />
+          <Loading title="Order Details 🍕" />
         )}
         <div className="mt-6 flex justify-center">
           <button className="modal-close-btn" onClick={onClose}>

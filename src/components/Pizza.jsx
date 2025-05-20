@@ -5,7 +5,7 @@ const Pizza = (props) => {
       <h3 className="pizza-name">{props.name}</h3>
       <p className="pizza-description">{props.description}</p>
       <img
-        src={props.image ? props.image : <Loading />}
+        src={props.image ? props.image : <Loading title="Pizza" />}
         alt={props.name}
         className="pizza-image"
       />

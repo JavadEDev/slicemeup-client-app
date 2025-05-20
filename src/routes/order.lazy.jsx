@@ -118,7 +118,7 @@ function Order() {
 
         <div className="pizza-display">
           {loading ? (
-            <Loading />
+            <Loading title="Orders" />
           ) : (
             <Pizza
               name={selectedPizza.name}
@@ -130,7 +130,11 @@ function Order() {
         </div>
       </div>
       <div>
-        {loading ? <Loading /> : <Cart checkout={checkout} cart={cart} />}
+        {loading ? (
+          <Loading title="Cart" />
+        ) : (
+          <Cart checkout={checkout} cart={cart} />
+        )}
       </div>
     </>
   );
