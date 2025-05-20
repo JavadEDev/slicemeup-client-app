@@ -19,13 +19,11 @@ export default defineConfig({
   },
   plugins: [
     TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
-    react(),
+    react({
+      babel: {
+        plugins: [["babel-plugin-react-compiler"]],
+      },
+    }),
     tailwindcss(),
   ],
-  // test: {
-  //   environment: "happy-dom",
-  //   coverage: {
-  //     reporter: ["text", "json", "html"],
-  //   },
-  // },
 });
