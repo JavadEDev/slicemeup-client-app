@@ -6,7 +6,7 @@ const PizzaOfTheDay = () => {
   const pizzaOfTheDay = usePizzaOfTheDay();
 
   if (!pizzaOfTheDay) {
-    return <Loading />;
+    return <Loading title="Pizza of the day" />;
   }
   return (
     <div className="pizza-of-day-container">
