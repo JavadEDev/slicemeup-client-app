@@ -1,6 +1,7 @@
 import { usePizzaOfTheDay } from "./usePizzaOfTheDay";
 import Loading from "./loading";
 import { intl } from "./utils";
+import { apiUrl } from "../api/apiUrl";
 
 const PizzaOfTheDay = () => {
   const pizzaOfTheDay = usePizzaOfTheDay();
@@ -23,7 +24,7 @@ const PizzaOfTheDay = () => {
         </div>
         <div className="pizza-of-day-image-container">
           <img
-            src={pizzaOfTheDay.image}
+            src={`${apiUrl}${pizzaOfTheDay.image}`}
             alt={pizzaOfTheDay.name}
             className="pizza-of-day-image"
           />

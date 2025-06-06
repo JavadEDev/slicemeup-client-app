@@ -1,6 +1,7 @@
 import Modal from "../Modal";
 import Loading from "./loading";
 import { intl } from "./utils";
+import { apiUrl } from "../api/apiUrl";
 
 const OrderDetailsModal = ({ orderId, orderData, isLoading, onClose }) => {
   return (
@@ -27,7 +28,7 @@ const OrderDetailsModal = ({ orderId, orderData, isLoading, onClose }) => {
                 {orderData.orderItems.map((pizza) => (
                   <tr key={`${pizza.pizzaTypeId}-${pizza.size}`}>
                     <td>
-                      <img src={pizza.image} alt={pizza.name} />
+                      <img src={`${apiUrl}${pizza.image}`} alt={pizza.name} />
                     </td>
                     <td className="font-pacifico">{pizza.name}</td>
                     <td>{pizza.size}</td>

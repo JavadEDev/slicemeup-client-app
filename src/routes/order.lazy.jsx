@@ -5,7 +5,8 @@ import Loading from "../components/loading";
 import { intl } from "../components/utils";
 import Cart from "../components/Cart";
 import { CartContext } from "../components/contexts";
-
+import { apiUrl, fetchConfig } from "../api/apiUrl";
+import { apiImg } from "../api/apiImg";
 export const Route = createLazyFileRoute("/order")({
   component: Order,
 });
@@ -21,7 +22,7 @@ function Order() {
   async function checkout() {
     setLoading(true);
 
-    await fetch("/api/order", {
+    await fetch(`${apiUrl}/api/order`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,7 +40,7 @@ function Order() {
   }
 
   async function fetchPizzaTypes() {
-    const pizzasRes = await fetch("/api/pizzas");
+    const pizzasRes = await fetch(`${apiUrl}/api/pizzas`, fetchConfig);
     const pizzasJson = await pizzasRes.json();
     setPizzaTypes(pizzasJson);
     setLoading(false);
@@ -47,6 +48,12 @@ function Order() {
 
   function addToCart() {
     setCart([...cart, { pizza: selectedPizza, size: pizzaSize, price }]);
+  }
+
+  function removeFromCart(index) {
+    const newCart = [...cart];
+    newCart.splice(index, 1);
+    setCart(newCart);
   }
 
   useEffect(() => {
@@ -123,7 +130,7 @@ function Order() {
             <Pizza
               name={selectedPizza.name}
               description={selectedPizza.description}
-              image={selectedPizza.image}
+              image={`${apiImg}${selectedPizza.image}`}
               price={price}
             />
           )}
@@ -133,7 +140,7 @@ function Order() {
         {loading ? (
           <Loading title="Cart" />
         ) : (
-          <Cart checkout={checkout} cart={cart} />
+          <Cart checkout={checkout} cart={cart} onRemoveItem={removeFromCart} />
         )}
       </div>
     </>

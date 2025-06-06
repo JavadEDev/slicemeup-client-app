@@ -9,7 +9,7 @@ function Index() {
     <div className="home-container">
       <div className="home-hero">
         <h1 className="home-title">
-          <title>SliceMeUp</title>
+          <title>SliceMeUp</title>SliceMeUp
         </h1>
         <p className="home-subtitle"> Where Every Slice Tells a Story 🍕</p>
       </div>

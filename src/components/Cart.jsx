@@ -1,6 +1,6 @@
 import { intl } from "./utils";
 
-function Cart({ cart, checkout }) {
+function Cart({ cart, checkout, onRemoveItem }) {
   let total = 0;
   for (let i = 0; i < cart.length; i++) {
     const current = cart[i];
@@ -23,7 +23,16 @@ function Cart({ cart, checkout }) {
                   <span className="pizza-size">{item.size}</span>
                   <span className="pizza-name">{item.pizza.name}</span>
                 </div>
-                <span className="pizza-price">{item.price}</span>
+                <div className="cart-item-actions">
+                  <span className="pizza-price">{item.price}</span>
+                  <button
+                    className="remove-btn"
+                    onClick={() => onRemoveItem(index)}
+                    aria-label="Remove item"
+                  >
+                    ❌
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
