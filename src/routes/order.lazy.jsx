@@ -17,27 +17,46 @@ function Order() {
   const [pizzaTypes, setPizzaTypes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useContext(CartContext);
-  let price, selectedPizza;
 
   async function checkout() {
     setLoading(true);
+    try {
+      const response = await fetch(`${apiUrl}/api/order`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ cart: cart }),
+      });
 
-    await fetch(`${apiUrl}/api/order`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ cart }),
-    });
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        console.error("Order failed:", errorData || response.statusText);
+        throw new Error(`Order failed: ${response.status}`);
+      }
 
-    setCart([]);
-    setLoading(false);
+      const result = await response.json();
+      setCart([]);
+      return result;
+    } catch (error) {
+      console.error("Checkout error:", error);
+      // Handle error appropriately (show error message to user)
+    } finally {
+      setLoading(false);
+    }
   }
 
+  let price, selectedPizza;
   if (!loading) {
     selectedPizza = pizzaTypes.find((pizza) => pizzaType === pizza.id);
-    price = intl.format(selectedPizza.sizes[pizzaSize]);
+    price = intl.format(
+      selectedPizza.sizes ? selectedPizza.sizes[pizzaSize] : "",
+    );
   }
+
+  useEffect(() => {
+    fetchPizzaTypes();
+  }, []);
 
   async function fetchPizzaTypes() {
     const pizzasRes = await fetch(`${apiUrl}/api/pizzas`, fetchConfig);
@@ -56,10 +75,6 @@ function Order() {
     setCart(newCart);
   }
 
-  useEffect(() => {
-    fetchPizzaTypes();
-  }, []);
-
   return (
     <>
       <div className="order-container">
@@ -67,7 +82,16 @@ function Order() {
           <h2 className="h2Title title">
             <title>Create Order</title>
           </h2>
-          <form className="flex flex-col gap-8" action={addToCart}>
+          <form
+            className="flex flex-col gap-8"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setCart([
+                ...cart,
+                { pizza: selectedPizza, size: pizzaSize, price },
+              ]);
+            }}
+          >
             <div className="form-section">
               <label htmlFor="pizza-type" className="form-label">
                 Choose Your Pizza
