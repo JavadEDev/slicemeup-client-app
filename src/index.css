@@ -1892,3 +1892,31 @@ html {
     max-height: 85vh;
   }
 }
+
+.cart-success {
+  @apply py-12 text-center;
+  animation: successBounce 0.5s ease-out forwards;
+}
+
+.cart-success p {
+  @apply font-pacifico text-primary text-xl;
+  text-shadow: 1px 1px 0 var(--color-pizza-name-glow);
+}
+
+.cart-success p:first-child {
+  @apply mb-2 text-2xl;
+}
+
+@keyframes successBounce {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

@@ -17,6 +17,7 @@ function Order() {
   const [pizzaTypes, setPizzaTypes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useContext(CartContext);
+  const [checkoutSuccess, setCheckoutSuccess] = useState(false);
 
   async function checkout() {
     setLoading(true);
@@ -36,11 +37,11 @@ function Order() {
       }
 
       const result = await response.json();
-      setCart([]);
+      setCheckoutSuccess(true);
       return result;
     } catch (error) {
       console.error("Checkout error:", error);
-      // Handle error appropriately (show error message to user)
+      return { success: false, error: error.message };
     } finally {
       setLoading(false);
     }
@@ -82,16 +83,7 @@ function Order() {
           <h2 className="h2Title title">
             <title>Create Order</title>
           </h2>
-          <form
-            className="flex flex-col gap-8"
-            onSubmit={(e) => {
-              e.preventDefault();
-              setCart([
-                ...cart,
-                { pizza: selectedPizza, size: pizzaSize, price },
-              ]);
-            }}
-          >
+          <form className="flex flex-col gap-8" action={addToCart}>
             <div className="form-section">
               <label htmlFor="pizza-type" className="form-label">
                 Choose Your Pizza
@@ -164,7 +156,13 @@ function Order() {
         {loading ? (
           <Loading title="Cart" />
         ) : (
-          <Cart checkout={checkout} cart={cart} onRemoveItem={removeFromCart} />
+          <Cart
+            checkout={checkout}
+            cart={cart}
+            onRemoveItem={removeFromCart}
+            checkoutSuccess={checkoutSuccess}
+            setCheckoutSuccess={setCheckoutSuccess}
+          />
         )}
       </div>
     </>

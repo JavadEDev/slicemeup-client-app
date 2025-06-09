@@ -1,16 +1,36 @@
 import { intl } from "./utils";
 
-function Cart({ cart, checkout, onRemoveItem }) {
+function Cart({
+  cart,
+  checkout,
+  onRemoveItem,
+  checkoutSuccess,
+  setCheckoutSuccess,
+}) {
   let total = 0;
   for (let i = 0; i < cart.length; i++) {
     const current = cart[i];
     total += current.pizza.sizes[current.size];
   }
 
+  const handleCheckout = async () => {
+    await checkout();
+    setTimeout(() => {
+      setCheckoutSuccess(false);
+      // Clear all items from cart
+      cart.forEach((_, index) => onRemoveItem(0));
+    }, 5000);
+  };
+
   return (
     <div className="cart-container">
       <h2 className="cart-title">Your Pizza Cart 🛒</h2>
-      {cart.length === 0 ? (
+      {checkoutSuccess ? (
+        <div className="cart-success">
+          <p>🎉 Order placed successfully! Thank you for your order! 🍕</p>
+          <p>Your delicious pizzas are being prepared! 🚀</p>
+        </div>
+      ) : cart.length === 0 ? (
         <div className="empty-cart">
           <p>Your cart is empty! Time to add some delicious pizzas! 🍕</p>
         </div>
@@ -41,7 +61,7 @@ function Cart({ cart, checkout, onRemoveItem }) {
               Total: <span>{intl.format(total)}</span>
             </p>
           </div>
-          <button className="checkout-btn" onClick={checkout}>
+          <button className="checkout-btn" onClick={handleCheckout}>
             Proceed to Checkout
           </button>
         </>
